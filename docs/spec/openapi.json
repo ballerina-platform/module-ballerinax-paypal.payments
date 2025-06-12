@@ -1,0 +1,3444 @@
+{
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "Payments",
+    "description" : "Call the Payments API to authorize payments, capture authorized payments, refund payments that have already been captured, and show payment information. Use the Payments API in conjunction with the <a href=\"/docs/api/orders/v2/\">Orders API</a>. For more information, see the <a href=\"/docs/checkout/\">PayPal Checkout Overview</a>.",
+    "contact" : { },
+    "version" : "2.5"
+  },
+  "externalDocs" : {
+    "url" : "https://developer.paypal.com/docs/api/payments/v2/"
+  },
+  "servers" : [ {
+    "url" : "https://api-m.sandbox.paypal.com/v2/payments",
+    "description" : "PayPal Sandbox Environment"
+  }, {
+    "url" : "https://api-m.paypal.com/v2/payments",
+    "description" : "PayPal Live Environment"
+  } ],
+  "tags" : [ {
+    "name" : "authorizations",
+    "description" : "Use the `/authorizations` resource to show details for, capture payment for, reauthorize, and void authorized payments."
+  }, {
+    "name" : "captures",
+    "description" : "Use the `/captures` resource to show details for and refund a captured payment."
+  }, {
+    "name" : "refunds",
+    "description" : "Use the `/refunds` resource to show refund details."
+  }, {
+    "name" : "assets",
+    "description" : "Assets APIs for Checkout"
+  }, {
+    "name" : "cancel-payment",
+    "description" : "Use the <code>/cancel-payment</code> resource to cancel an order capture or order authorization by <code>PayPal-Request-Id</code>. The merchant triggers the cancel action."
+  }, {
+    "name" : "find-eligible-methods",
+    "description" : "Use the `/find-eligible-methods` resource to show list of eligible payment methods for given customer/order context."
+  }, {
+    "name" : "payment-resource-operations",
+    "description" : "Use the `/payment-resource-operations` resource to show verifications details."
+  } ],
+  "paths" : {
+    "/authorizations/{authorizationId}" : {
+      "get" : {
+        "tags" : [ "authorizations" ],
+        "summary" : "Show details for authorized payment",
+        "description" : "Shows details for an authorized payment, by ID.",
+        "operationId" : "authorizations.get",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/authorization_id"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Authorization2"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/payment/authcapture" ]
+        } ]
+      }
+    },
+    "/authorizations/{authorizationId}/capture" : {
+      "post" : {
+        "tags" : [ "authorizations" ],
+        "summary" : "Capture authorized payment",
+        "description" : "Captures an authorized payment, by ID.",
+        "operationId" : "authorizations.capture",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/authorization_id"
+        }, {
+          "$ref" : "#/components/parameters/paypal_request_id"
+        }, {
+          "$ref" : "#/components/parameters/prefer"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CaptureRequest"
+              },
+              "examples" : {
+                "capture_request" : {
+                  "value" : {
+                    "amount" : {
+                      "value" : "10.99",
+                      "currency_code" : "USD"
+                    },
+                    "invoice_id" : "INVOICE-123",
+                    "final_capture" : true,
+                    "note_to_payer" : "If the ordered color is not available, we will substitute with a different color free of charge.",
+                    "soft_descriptor" : "Bob's Custom Sweaters"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows captured payment details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Capture2"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The request failed because it is not well-formed or is syntactically incorrect or violates schema.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "The request failed because it is semantically incorrect or failed business validation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse422"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/payment/authcapture" ]
+        } ]
+      }
+    },
+    "/authorizations/{authorizationId}/reauthorize" : {
+      "post" : {
+        "tags" : [ "authorizations" ],
+        "summary" : "Reauthorize authorized payment",
+        "description" : "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. Within the 29-day authorization period, you can issue multiple re-authorizations after the honor period expires.<br/><br/>If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.<br/><br/>A reauthorized payment itself has a new honor period of three days.<br/><br/>You can reauthorize an authorized payment from 4 to 29 days after the 3-day honor period. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.<br/><br/>Supports only the `amount` request parameter.<blockquote><strong>Note:</strong> This request is currently not supported for Partner use cases.</blockquote>",
+        "operationId" : "authorizations.reauthorize",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/authorization_id"
+        }, {
+          "$ref" : "#/components/parameters/paypal_request_id"
+        }, {
+          "$ref" : "#/components/parameters/prefer"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ReauthorizeRequest"
+              },
+              "examples" : {
+                "reauthorize_request" : {
+                  "value" : {
+                    "amount" : {
+                      "value" : "10.99",
+                      "currency_code" : "USD"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows the reauthorized payment details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Authorization2"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The request failed because it is not well-formed or is syntactically incorrect or violates schema.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse4001"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "The request failed because it either is semantically incorrect or failed business validation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse4221"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/payment/authcapture" ]
+        } ]
+      }
+    },
+    "/authorizations/{authorizationId}/void" : {
+      "post" : {
+        "tags" : [ "authorizations" ],
+        "summary" : "Void authorized payment",
+        "description" : "Voids, or cancels, an authorized payment, by ID. You cannot void an authorized payment that has been fully captured.",
+        "operationId" : "authorizations.void",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/authorization_id"
+        }, {
+          "$ref" : "#/components/parameters/paypal_auth_assertion"
+        }, {
+          "$ref" : "#/components/parameters/prefer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details. This response is returned when the Prefer header is set to return=representation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Authorization2"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "A successful request returns the HTTP <code>204 No Content</code> status code with no JSON response body. This response is returned when the Prefer header is set to return=minimal."
+          },
+          "400" : {
+            "description" : "The request failed because it is not well-formed or is syntactically incorrect or violates schema.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "The request failed because a previous call for the given resource is in progress.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse409"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "The request failed because it either is semantically incorrect or failed business validation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse4222"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/payment/authcapture" ]
+        } ]
+      }
+    },
+    "/captures/{captureId}" : {
+      "get" : {
+        "tags" : [ "captures" ],
+        "summary" : "Show captured payment details",
+        "description" : "Shows details for a captured payment, by ID.",
+        "operationId" : "captures.get",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/capture_id"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows captured payment details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Capture2"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/payment/authcapture" ]
+        } ]
+      }
+    },
+    "/captures/{captureId}/refund" : {
+      "post" : {
+        "tags" : [ "captures" ],
+        "summary" : "Refund captured payment",
+        "description" : "Refunds a captured payment, by ID. For a full refund, include an empty payload in the JSON request body. For a partial refund, include an <code>amount</code> object in the JSON request body.",
+        "operationId" : "captures.refund",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/capture_id"
+        }, {
+          "$ref" : "#/components/parameters/paypal_request_id"
+        }, {
+          "$ref" : "#/components/parameters/prefer"
+        }, {
+          "$ref" : "#/components/parameters/paypal_auth_assertion"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefundRequest"
+              },
+              "examples" : {
+                "refund_request" : {
+                  "value" : {
+                    "amount" : {
+                      "value" : "10.00",
+                      "currency_code" : "USD"
+                    },
+                    "invoice_id" : "INVOICE-123",
+                    "note_to_payer" : "DefectiveProduct",
+                    "payment_instruction" : {
+                      "platform_fees" : [ {
+                        "amount" : {
+                          "currency_code" : "USD",
+                          "value" : "1.00"
+                        }
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows refund details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Refund"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "The request failed because it is not well-formed or is syntactically incorrect or violates schema.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse4002"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "The request failed because a previous call for the given resource is in progress.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse409"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "The request failed because it either is semantically incorrect or failed business validation.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse4223"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/refund" ]
+        } ]
+      }
+    },
+    "/refunds/{refundId}" : {
+      "get" : {
+        "tags" : [ "refunds" ],
+        "summary" : "Show refund details",
+        "description" : "Shows details for a refund, by ID.",
+        "operationId" : "refunds.get",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/refund_id"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows refund details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Refund"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed due to missing authorization header, or invalid authentication credentials.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse401"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "The request failed because the caller has insufficient permissions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse403"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The request failed because the resource does not exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse404"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "The request failed because an internal server error occurred."
+          },
+          "default" : {
+            "$ref" : "#/components/responses/default"
+          }
+        },
+        "security" : [ {
+          "Oauth2" : [ "https://uri.paypal.com/services/payments/refund" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Error503" : {
+        "title" : "Service Unavailable Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "SERVICE_UNAVAILABLE" ]
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Service Unavailable." ]
+          }
+        },
+        "description" : "The server is temporarily unable to handle the request, for example, because of planned maintenance or downtime",
+        "example" : {
+          "name" : "SERVICE_UNAVAILABLE",
+          "message" : "Service Unavailable.",
+          "debug_id" : "90957fca61718",
+          "information_link" : "https://developer.paypal.com/docs/api/orders/v2/#error-SERVICE_UNAVAILABLE"
+        }
+      },
+      "INVALIDPARAMETERSYNTAX" : {
+        "title" : "INVALID_PARAMETER_SYNTAX",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_PARAMETER_SYNTAX" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field does not conform to the expected format." ]
+          }
+        }
+      },
+      "ErrorLocation" : {
+        "type" : "string",
+        "description" : "The location of the field that caused the error. Value is `body`, `path`, or `query`",
+        "default" : "body",
+        "enum" : [ "body", "path", "query" ]
+      },
+      "SupplementaryPurchaseData" : {
+        "title" : "Capture Identifier",
+        "type" : "object",
+        "properties" : {
+          "invoice_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.{1,127}$",
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives",
+            "x-ballerina-name" : "invoiceId"
+          },
+          "note_to_payer" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^.{1,255}$",
+            "type" : "string",
+            "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives",
+            "x-ballerina-name" : "noteToPayer"
+          }
+        },
+        "description" : "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor"
+      },
+      "Schema'409" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/409Details"
+            }
+          }
+        }
+      },
+      "CardBrand" : {
+        "title" : "Card Brand",
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : "^[A-Z_]+$",
+        "type" : "string",
+        "description" : "The card network or brand. Applies to credit, debit, gift, and payment cards",
+        "enum" : [ "VISA", "MASTERCARD", "DISCOVER", "AMEX", "SOLO", "JCB", "STAR", "DELTA", "SWITCH", "MAESTRO", "CB_NATIONALE", "CONFIGOGA", "CONFIDIS", "ELECTRON", "CETELEM", "CHINA_UNION_PAY" ]
+      },
+      "Schema'404" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/404Details"
+            }
+          }
+        }
+      },
+      "REFUNDAMOUNTEXCEEDED" : {
+        "title" : "REFUND_AMOUNT_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_AMOUNT_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The refund amount must be less than or equal to the capture amount that has not yet been refunded." ]
+          }
+        }
+      },
+      "Schema'403" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/403Details"
+            }
+          }
+        }
+      },
+      "DateTime" : {
+        "maxLength" : 64,
+        "minLength" : 20,
+        "pattern" : "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+        "type" : "string",
+        "description" : "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.<blockquote><strong>Note:</strong> The regular expression provides guidance but does not reject all invalid dates.</blockquote>",
+        "format" : "ppaas_date_time_v3"
+      },
+      "Capture" : {
+        "title" : "Capture",
+        "type" : "object",
+        "description" : "A captured payment",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/CaptureStatus"
+        }, {
+          "$ref" : "#/components/schemas/CaptureAllOf2"
+        }, {
+          "$ref" : "#/components/schemas/ActivityTimestamps"
+        } ]
+      },
+      "Schema'401" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/401Details"
+            }
+          }
+        }
+      },
+      "CurrencyCode" : {
+        "maxLength" : 3,
+        "minLength" : 3,
+        "type" : "string",
+        "description" : "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency",
+        "format" : "ppaas_common_currency_code_v2"
+      },
+      "Schema'400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/400Details"
+            }
+          }
+        }
+      },
+      "PARTIALREFUNDNOTALLOWED" : {
+        "title" : "PARTIAL_REFUND_NOT_ALLOWED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PARTIAL_REFUND_NOT_ALLOWED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "You cannot do a refund less than the original capture amount." ]
+          }
+        }
+      },
+      "Error500" : {
+        "title" : "Internal Server Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "INTERNAL_SERVER_ERROR" ]
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "An internal server error occurred." ]
+          }
+        },
+        "description" : "This is either a system or application error, and generally indicates that although the client appeared to provide a correct request, something unexpected has gone wrong on the server",
+        "example" : {
+          "name" : "INTERNAL_SERVER_ERROR",
+          "message" : "An internal server error occurred.",
+          "debug_id" : "90957fca61718",
+          "links" : [ {
+            "href" : "https://developer.paypal.com/api/orders/v2/#error-INTERNAL_SERVER_ERROR",
+            "rel" : "information_link"
+          } ]
+        }
+      },
+      "DECIMALPRECISION2" : {
+        "title" : "DECIMAL_PRECISION",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMAL_PRECISION" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DECIMALPRECISION1" : {
+        "title" : "DECIMAL_PRECISION",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMAL_PRECISION" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "If the currency supports decimals, only two decimal place precision is supported." ]
+          }
+        }
+      },
+      "CURRENCYMISMATCH" : {
+        "title" : "CURRENCY_MISMATCH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CURRENCY_MISMATCH" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RefundStatus" : {
+        "title" : "Refund Status",
+        "type" : "object",
+        "properties" : {
+          "status_details" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RefundStatusDetails"
+            } ],
+            "x-ballerina-name" : "statusDetails"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the refund",
+            "readOnly" : true,
+            "enum" : [ "CANCELLED", "FAILED", "PENDING", "COMPLETED" ]
+          }
+        },
+        "description" : "The refund status"
+      },
+      "REFUNDNOTPERMITTEDDUETOCHARGEBACK" : {
+        "title" : "REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Refunds are not allowed on this capture due to a chargeback on the card or bank. Please contact the payee to resolve the chargeback." ]
+          }
+        }
+      },
+      "INVALIDPARAMETERSYNTAX1" : {
+        "title" : "INVALID_PARAMETER_SYNTAX",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_PARAMETER_SYNTAX" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field does not conform to the expected format." ]
+          }
+        }
+      },
+      "Authorizationsreauthorize400Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/MISSINGREQUIREDPARAMETER1"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDSTRINGLENGTH1"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDSTRINGMAXLENGTH1"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDPARAMETERSYNTAX1"
+        } ]
+      },
+      "PLATFORMFEEEXCEEDED" : {
+        "title" : "PLATFORM_FEE_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PLATFORM_FEE_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Platform fee amount specified exceeds the amount that is available for refund. You can only refund up to the available platform fee amount. This error is also returned when no platform_fee was specified or was zero when the payment was captured." ]
+          }
+        }
+      },
+      "INVALIDPARAMETERSYNTAX2" : {
+        "title" : "INVALID_PARAMETER_SYNTAX",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_PARAMETER_SYNTAX" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "INVALIDRESOURCEID" : {
+        "title" : "INVALID_RESOURCE_ID",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_RESOURCE_ID" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Specified resource ID does not exist. Please check the resource ID and try again." ]
+          }
+        }
+      },
+      "TRANSACTIONREFUSED2" : {
+        "title" : "TRANSACTION_REFUSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "TRANSACTION_REFUSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "PayPal's internal controls prevent authorization from being captured." ]
+          }
+        }
+      },
+      "Capture2" : {
+        "title" : "Capture",
+        "type" : "object",
+        "description" : "A captured payment",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Capture"
+        }, {
+          "$ref" : "#/components/schemas/Capture2AllOf2"
+        } ]
+      },
+      "Capture2AllOf2" : {
+        "properties" : {
+          "supplementary_data" : {
+            "$ref" : "#/components/schemas/SupplementaryData"
+          },
+          "payee" : {
+            "$ref" : "#/components/schemas/PayeeBase"
+          }
+        }
+      },
+      "Refund" : {
+        "title" : "Refund",
+        "type" : "object",
+        "description" : "The refund information",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/RefundStatus"
+        }, {
+          "$ref" : "#/components/schemas/RefundAllOf2"
+        }, {
+          "$ref" : "#/components/schemas/ActivityTimestamps"
+        } ]
+      },
+      "InlineResponse4001" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error400"
+        }, {
+          "$ref" : "#/components/schemas/AuthorizationsReauthorize400"
+        } ]
+      },
+      "InlineResponse4002" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error400"
+        }, {
+          "$ref" : "#/components/schemas/CapturesRefund400"
+        } ]
+      },
+      "TRANSACTIONREFUSED" : {
+        "title" : "TRANSACTION_REFUSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "TRANSACTION_REFUSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "PayPal's internal controls prevent authorization from being captured." ]
+          }
+        }
+      },
+      "CaptureStatus" : {
+        "title" : "Capture Status",
+        "type" : "object",
+        "properties" : {
+          "status_details" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CaptureStatusDetails"
+            } ],
+            "x-ballerina-name" : "statusDetails"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the captured payment",
+            "readOnly" : true,
+            "enum" : [ "COMPLETED", "DECLINED", "PARTIALLY_REFUNDED", "PENDING", "REFUNDED", "FAILED" ]
+          }
+        },
+        "description" : "The status of a captured payment"
+      },
+      "MAXNUMBEROFREFUNDSEXCEEDED" : {
+        "title" : "MAX_NUMBER_OF_REFUNDS_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MAX_NUMBER_OF_REFUNDS_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "You have exceeded the maximum number of refund attempts for this capture." ]
+          }
+        }
+      },
+      "PREVIOUSREQUESTINPROGRESS" : {
+        "title" : "PREVIOUS_REQUEST_IN_PROGRESS",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PREVIOUS_REQUEST_IN_PROGRESS" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A previous request on this resource is currently in progress. Please wait for sometime and try again. It is best to space out the initial and the subsequent request(s) to avoid receiving this error." ]
+          }
+        }
+      },
+      "Error404" : {
+        "title" : "Not found Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "RESOURCE_NOT_FOUND" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The specified resource does not exist." ]
+          }
+        },
+        "description" : "The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available"
+      },
+      "SupplementaryData" : {
+        "title" : "Supplementary Data",
+        "type" : "object",
+        "properties" : {
+          "related_ids" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RelatedIds"
+            } ],
+            "x-ballerina-name" : "relatedIds"
+          }
+        },
+        "description" : "The supplementary data"
+      },
+      "Error409" : {
+        "title" : "Resource Conflict Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "RESOURCE_CONFLICT" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The server has detected a conflict while processing this request." ]
+          }
+        },
+        "description" : "The server has detected a conflict while processing this request"
+      },
+      "PAYERCANNOTPAY" : {
+        "title" : "PAYER_CANNOT_PAY",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYER_CANNOT_PAY" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Payer cannot pay for this transaction. Please contact the payer to find other ways to pay for this transaction." ]
+          }
+        }
+      },
+      "ReauthorizeRequest" : {
+        "title" : "Reauthorize Request",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "description" : "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.<br/><br/>If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.<br/><br/>A reauthorized payment itself has a new honor period of three days.<br/><br/>You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.<br/><br/>Supports only the `amount` request parameter.<blockquote><strong>Note:</strong> This request is currently not supported for Partner use cases.</blockquote>"
+      },
+      "InlineResponse401" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error401"
+        }, {
+          "$ref" : "#/components/schemas/Schema'401"
+        } ]
+      },
+      "InlineResponse400" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error400"
+        }, {
+          "$ref" : "#/components/schemas/Schema'400"
+        } ]
+      },
+      "ErrorDetails" : {
+        "title" : "Error Details",
+        "required" : [ "issue" ],
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "type" : "string",
+            "description" : "The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors"
+          },
+          "issue" : {
+            "type" : "string",
+            "description" : "The unique, fine-grained application-level error code"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/ErrorLocation"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "The value of the field that caused the error"
+          }
+        },
+        "description" : "The error details. Required for client-side `4XX` errors"
+      },
+      "InlineResponse403" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error403"
+        }, {
+          "$ref" : "#/components/schemas/Schema'403"
+        } ]
+      },
+      "INVALIDACCOUNTSTATUS" : {
+        "title" : "INVALID_ACCOUNT_STATUS",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_ACCOUNT_STATUS" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Account validations failed for the user." ]
+          }
+        }
+      },
+      "InlineResponse404" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error404"
+        }, {
+          "$ref" : "#/components/schemas/Schema'404"
+        } ]
+      },
+      "Authorization" : {
+        "title" : "Authorization",
+        "type" : "object",
+        "description" : "The authorized payment transaction",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/AuthorizationStatus"
+        }, {
+          "$ref" : "#/components/schemas/AuthorizationAllOf2"
+        }, {
+          "$ref" : "#/components/schemas/ActivityTimestamps"
+        } ]
+      },
+      "AUTHORIZATIONALREADYCAPTURED1" : {
+        "title" : "AUTHORIZATION_ALREADY_CAPTURED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_ALREADY_CAPTURED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Authorization has previously been captured." ]
+          }
+        }
+      },
+      "REFUNDNOTALLOWED" : {
+        "title" : "REFUND_NOT_ALLOWED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_NOT_ALLOWED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Capture cannot be refunded." ]
+          }
+        }
+      },
+      "TRANSACTIONREFUSED1" : {
+        "title" : "TRANSACTION_REFUSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "TRANSACTION_REFUSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "PayPal's internal controls prevent authorization from being captured." ]
+          }
+        }
+      },
+      "SellerReceivableBreakdown" : {
+        "title" : "Seller Receivable Breakdown",
+        "required" : [ "gross_amount" ],
+        "type" : "object",
+        "properties" : {
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment",
+            "items" : {
+              "$ref" : "#/components/schemas/PlatformFee"
+            },
+            "x-ballerina-name" : "platformFees"
+          },
+          "exchange_rate" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExchangeRate"
+            } ],
+            "x-ballerina-name" : "exchangeRate"
+          },
+          "paypal_fee" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "paypalFee"
+          },
+          "gross_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "grossAmount"
+          },
+          "paypal_fee_in_receivable_currency" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "paypalFeeInReceivableCurrency"
+          },
+          "net_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "netAmount"
+          },
+          "receivable_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "receivableAmount"
+          }
+        },
+        "description" : "The detailed breakdown of the capture activity. This is not available for transactions that are in pending state"
+      },
+      "PAYEEACCOUNTLOCKEDORCLOSED" : {
+        "title" : "PAYEE_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Transaction could not complete because payee account is locked or closed." ]
+          }
+        }
+      },
+      "AUTHORIZATIONVOIDED" : {
+        "title" : "AUTHORIZATION_VOIDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_VOIDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A voided authorization cannot be captured or reauthorized. " ]
+          }
+        }
+      },
+      "MISSINGREQUIREDPARAMETER1" : {
+        "title" : "MISSING_REQUIRED_PARAMETER",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MISSING_REQUIRED_PARAMETER" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A required field / parameter is missing." ]
+          }
+        }
+      },
+      "PAYERACCOUNTLOCKEDORCLOSED1" : {
+        "title" : "PAYER_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYER_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The payer account cannot be used for this transaction." ]
+          }
+        }
+      },
+      "PAYERACCOUNTLOCKEDORCLOSED2" : {
+        "title" : "PAYER_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYER_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The payer account cannot be used for this transaction." ]
+          }
+        }
+      },
+      "DECIMALSNOTSUPPORTED" : {
+        "title" : "DECIMALS_NOT_SUPPORTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMALS_NOT_SUPPORTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Currency does not support decimals. Please refer to https://developer.paypal.com/docs/api/reference/currency-codes/ for more information." ]
+          }
+        }
+      },
+      "MISSINGREQUIREDPARAMETER2" : {
+        "title" : "MISSING_REQUIRED_PARAMETER",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MISSING_REQUIRED_PARAMETER" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Error400" : {
+        "title" : "Bad Request Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "INVALID_REQUEST" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Request is not well-formed, syntactically incorrect, or violates schema." ]
+          }
+        },
+        "description" : "Request is not well-formed, syntactically incorrect, or violates schema"
+      },
+      "Error401" : {
+        "title" : "Unauthorized Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "AUTHENTICATION_FAILURE" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Authentication failed due to missing authorization header, or invalid authentication credentials." ]
+          }
+        },
+        "description" : "Authentication failed due to missing Authorization header, or invalid authentication credentials"
+      },
+      "PAYERCANNOTPAY1" : {
+        "title" : "PAYER_CANNOT_PAY",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYER_CANNOT_PAY" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Payer cannot pay for this transaction. Please contact the payer to find other ways to pay for this transaction." ]
+          }
+        }
+      },
+      "Error403" : {
+        "title" : "Not Authorized Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "NOT_AUTHORIZED" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Authorization failed due to insufficient permissions." ]
+          }
+        },
+        "description" : "The client is not authorized to access this resource, although it may have valid credentials. "
+      },
+      "Error415" : {
+        "title" : "Unsupported Media Type Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "UNSUPPORTED_MEDIA_TYPE" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The server does not support the request payload's media type." ]
+          }
+        },
+        "description" : "The server does not support the request payload's media type"
+      },
+      "PAYEEACCOUNTLOCKEDORCLOSED1" : {
+        "title" : "PAYEE_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Transaction could not complete because payee account is locked or closed." ]
+          }
+        }
+      },
+      "PREVIOUSLYVOIDED" : {
+        "title" : "PREVIOUSLY_VOIDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PREVIOUSLY_VOIDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Authorization has been previously voided and hence cannot be voided again." ]
+          }
+        }
+      },
+      "PLATFORMFEENOTENABLED" : {
+        "title" : "PLATFORM_FEE_NOT_ENABLED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PLATFORM_FEE_NOT_ENABLED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The API Caller account is not setup to be able to process refunds with 'platform_fees'. Please contact your Account Manager. This feature is useful when you want to contribute a portion of the 'platform_fees' you had capture as part of the refund being processed." ]
+          }
+        }
+      },
+      "MAXCAPTUREAMOUNTEXCEEDED" : {
+        "title" : "MAX_CAPTURE_AMOUNT_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MAX_CAPTURE_AMOUNT_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Capture amount exceeds allowable limit. Please contact customer service or your account manager to request the change to your overage limit. The default overage limit is 115%, which allows the sum of all captures to be up to 115% of the order amount. The ability to over capture is subjected to regulatory approvals." ]
+          }
+        }
+      },
+      "CANNOTBEZEROORNEGATIVE1" : {
+        "title" : "CANNOT_BE_ZERO_OR_NEGATIVE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CANNOT_BE_ZERO_OR_NEGATIVE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Must be greater than zero. If the currency supports decimals, only two decimal place precision is supported." ]
+          }
+        }
+      },
+      "AuthorizationsVoid422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsvoid422Details"
+            }
+          }
+        }
+      },
+      "404Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/INVALIDRESOURCEID"
+        } ]
+      },
+      "CANNOTBEZEROORNEGATIVE2" : {
+        "title" : "CANNOT_BE_ZERO_OR_NEGATIVE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CANNOT_BE_ZERO_OR_NEGATIVE" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PAYERACCOUNTLOCKEDORCLOSED" : {
+        "title" : "PAYER_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYER_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The payer account cannot be used for this transaction." ]
+          }
+        }
+      },
+      "400Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/INVALIDPARAMETERVALUE"
+        }, {
+          "$ref" : "#/components/schemas/MISSINGREQUIREDPARAMETER"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDSTRINGLENGTH"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDSTRINGMAXLENGTH"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDPARAMETERSYNTAX"
+        } ]
+      },
+      "AUTHORIZATIONDENIED" : {
+        "title" : "AUTHORIZATION_DENIED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_DENIED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "An denied authorization cannot be captured." ]
+          }
+        }
+      },
+      "PAYEEACCOUNTLOCKEDORCLOSED2" : {
+        "title" : "PAYEE_ACCOUNT_LOCKED_OR_CLOSED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_LOCKED_OR_CLOSED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Transaction could not complete because payee account is locked or closed." ]
+          }
+        }
+      },
+      "CAPTUREFULLYREFUNDED" : {
+        "title" : "CAPTURE_FULLY_REFUNDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CAPTURE_FULLY_REFUNDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The capture has already been fully refunded" ]
+          }
+        }
+      },
+      "InlineResponse409" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error409"
+        }, {
+          "$ref" : "#/components/schemas/Schema'409"
+        } ]
+      },
+      "CaptureRequestAllOf2" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "invoice_id" : {
+            "maxLength" : 127,
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives."
+          },
+          "final_capture" : {
+            "type" : "boolean",
+            "description" : "Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization.",
+            "default" : false
+          },
+          "payment_instruction" : {
+            "$ref" : "#/components/schemas/PaymentInstruction"
+          },
+          "note_to_payer" : {
+            "maxLength" : 255,
+            "type" : "string",
+            "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives."
+          },
+          "soft_descriptor" : {
+            "maxLength" : 22,
+            "type" : "string",
+            "description" : "The payment descriptor on the payer's account statement."
+          }
+        }
+      },
+      "RefundRequest" : {
+        "title" : "Refund Request",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "custom_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode",
+            "x-ballerina-name" : "customId"
+          },
+          "invoice_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode",
+            "x-ballerina-name" : "invoiceId"
+          },
+          "note_to_payer" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode",
+            "x-ballerina-name" : "noteToPayer"
+          },
+          "payment_instruction" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/PaymentInstruction2"
+            } ],
+            "x-ballerina-name" : "paymentInstruction"
+          }
+        },
+        "description" : "Refunds a captured payment, by ID. For a full refund, include an empty request body. For a partial refund, include an <code>amount</code> object in the request body"
+      },
+      "INVALIDSTRINGMAXLENGTH" : {
+        "title" : "INVALID_STRING_MAX_LENGTH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_STRING_MAX_LENGTH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field is too long." ]
+          }
+        }
+      },
+      "422Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/INVALIDCURRENCYCODE"
+        }, {
+          "$ref" : "#/components/schemas/CANNOTBEZEROORNEGATIVE"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALPRECISION"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALSNOTSUPPORTED"
+        }, {
+          "$ref" : "#/components/schemas/TRANSACTIONREFUSED"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONVOIDED"
+        }, {
+          "$ref" : "#/components/schemas/MAXCAPTURECOUNTEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/DUPLICATEINVOICEID"
+        }, {
+          "$ref" : "#/components/schemas/AUTHCAPTURECURRENCYMISMATCH"
+        }, {
+          "$ref" : "#/components/schemas/PAYERCANNOTPAY"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONDENIED"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONEXPIRED"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONALREADYCAPTURED"
+        }, {
+          "$ref" : "#/components/schemas/MAXCAPTUREAMOUNTEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/TRANSACTIONREFUSED1"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTLOCKEDORCLOSED"
+        }, {
+          "$ref" : "#/components/schemas/PAYERACCOUNTLOCKEDORCLOSED"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTRESTRICTED"
+        } ]
+      },
+      "REFUNDISRESTRICTED" : {
+        "title" : "REFUND_IS_RESTRICTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_IS_RESTRICTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "This refund can only be processed by the API caller that had 'captured' the transaction. If you facilitate your transactions via a platform/partner, please initiate a refund through them." ]
+          }
+        }
+      },
+      "PaymentInstruction2" : {
+        "title" : "Payment Instruction",
+        "type" : "object",
+        "properties" : {
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "Specifies the amount that the API caller will contribute to the refund being processed. The amount needs to be lower than platform_fees amount originally captured or the amount that is remaining if multiple refunds have been processed. This field is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability",
+            "items" : {
+              "$ref" : "#/components/schemas/PlatformFee"
+            },
+            "x-ballerina-name" : "platformFees"
+          }
+        },
+        "description" : "Any additional payments instructions during refund payment processing. This object is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability"
+      },
+      "TRANSACTIONDISPUTED" : {
+        "title" : "TRANSACTION_DISPUTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "TRANSACTION_DISPUTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Partial refunds cannot be offered at this time because there is an open case on this transaction. Visit the PayPal Resolution Center to review this case." ]
+          }
+        }
+      },
+      "PAYEEACCOUNTRESTRICTED1" : {
+        "title" : "PAYEE_ACCOUNT_RESTRICTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_RESTRICTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Payee account is restricted." ]
+          }
+        }
+      },
+      "PAYEEACCOUNTRESTRICTED2" : {
+        "title" : "PAYEE_ACCOUNT_RESTRICTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_RESTRICTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Payee account is restricted." ]
+          }
+        }
+      },
+      "Email" : {
+        "maxLength" : 254,
+        "minLength" : 3,
+        "pattern" : "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+        "type" : "string",
+        "description" : "The internationalized email address.<blockquote><strong>Note:</strong> Up to 64 characters are allowed before and 255 characters are allowed after the <code>@</code> sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted <code>@</code> sign exists.</blockquote>",
+        "format" : "merchant_common_email_address_v2"
+      },
+      "AccountId" : {
+        "title" : "PayPal Account Identifier",
+        "maxLength" : 13,
+        "minLength" : 13,
+        "pattern" : "^[2-9A-HJ-NP-Z]{13}$",
+        "type" : "string",
+        "description" : "The account identifier for a PayPal account",
+        "format" : "ppaas_payer_id_v3"
+      },
+      "REAUTHORIZATIONNOTSUPPORTED" : {
+        "title" : "REAUTHORIZATION_NOT_SUPPORTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REAUTHORIZATION_NOT_SUPPORTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A reauthorize cannot be attempted on an authorization_id that is the result of a prior reauthorization or on an authorization made on an Order saved using the `v2/orders/id/save` API." ]
+          }
+        }
+      },
+      "AuthorizationAllOf2" : {
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The PayPal-generated ID for the authorized payment.",
+            "readOnly" : true
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "invoice_id" : {
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+            "readOnly" : true
+          },
+          "custom_id" : {
+            "maxLength" : 127,
+            "type" : "string",
+            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports."
+          },
+          "network_transaction_reference" : {
+            "$ref" : "#/components/schemas/NetworkTransactionReference"
+          },
+          "seller_protection" : {
+            "$ref" : "#/components/schemas/SellerProtection"
+          },
+          "expiration_time" : {
+            "$ref" : "#/components/schemas/DateTime"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+            "readOnly" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/LinkDescription"
+            }
+          }
+        }
+      },
+      "REFUNDFAILEDINSUFFICIENTFUNDS" : {
+        "title" : "REFUND_FAILED_INSUFFICIENT_FUNDS",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_FAILED_INSUFFICIENT_FUNDS" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Capture could not be refunded due to insufficient funds. Please check to see if you have sufficient funds in your PayPal account or if the bank account linked to your PayPal account is verified and has sufficient funds." ]
+          }
+        }
+      },
+      "InlineResponse422" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error422"
+        }, {
+          "$ref" : "#/components/schemas/Schema'422"
+        } ]
+      },
+      "AUTHORIZATIONALREADYCAPTURED" : {
+        "title" : "AUTHORIZATION_ALREADY_CAPTURED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_ALREADY_CAPTURED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Authorization has previously been captured." ]
+          }
+        }
+      },
+      "AuthorizationStatus" : {
+        "title" : "Authorization Status",
+        "type" : "object",
+        "properties" : {
+          "status_details" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/AuthorizationStatusDetails"
+            } ],
+            "x-ballerina-name" : "statusDetails"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The status for the authorized payment",
+            "readOnly" : true,
+            "enum" : [ "CREATED", "CAPTURED", "DENIED", "PARTIALLY_CAPTURED", "VOIDED", "PENDING" ]
+          }
+        },
+        "description" : "The status fields for an authorized payment"
+      },
+      "PAYEEACCOUNTRESTRICTED" : {
+        "title" : "PAYEE_ACCOUNT_RESTRICTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PAYEE_ACCOUNT_RESTRICTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Payee account is restricted." ]
+          }
+        }
+      },
+      "CaptureStatusDetails" : {
+        "title" : "Capture Status Details",
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "pattern" : "^[A-Z_]+$",
+            "type" : "string",
+            "description" : "The reason why the captured payment status is `PENDING` or `DENIED`",
+            "enum" : [ "BUYER_COMPLAINT", "CHARGEBACK", "ECHECK", "INTERNATIONAL_WITHDRAWAL", "OTHER", "PENDING_REVIEW", "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION", "REFUNDED", "TRANSACTION_APPROVED_AWAITING_FUNDING", "UNILATERAL", "VERIFICATION_REQUIRED" ]
+          }
+        },
+        "description" : "The details of the captured payment status"
+      },
+      "ErrorDefault" : {
+        "description" : "The default error response",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/Error400"
+        }, {
+          "$ref" : "#/components/schemas/Error401"
+        }, {
+          "$ref" : "#/components/schemas/Error403"
+        }, {
+          "$ref" : "#/components/schemas/Error404"
+        }, {
+          "$ref" : "#/components/schemas/Error409"
+        }, {
+          "$ref" : "#/components/schemas/Error415"
+        }, {
+          "$ref" : "#/components/schemas/Error422"
+        }, {
+          "$ref" : "#/components/schemas/Error500"
+        }, {
+          "$ref" : "#/components/schemas/Error503"
+        } ]
+      },
+      "CANNOTBENEGATIVE" : {
+        "title" : "CANNOT_BE_NEGATIVE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CANNOT_BE_NEGATIVE" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PayeeBase" : {
+        "title" : "Merchant Base",
+        "type" : "object",
+        "properties" : {
+          "email_address" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Email"
+            } ],
+            "x-ballerina-name" : "emailAddress"
+          },
+          "merchant_id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/AccountId"
+            } ],
+            "x-ballerina-name" : "merchantId"
+          }
+        },
+        "description" : "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee"
+      },
+      "INVALIDSTRINGLENGTH" : {
+        "title" : "INVALID_STRING_LENGTH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_STRING_LENGTH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field is either too short or too long." ]
+          }
+        }
+      },
+      "DUPLICATEINVOICEID" : {
+        "title" : "DUPLICATE_INVOICE_ID",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DUPLICATE_INVOICE_ID" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Requested invoice_id has been previously captured. Possible duplicate transaction." ]
+          }
+        }
+      },
+      "Error422" : {
+        "title" : "Unprocessable Entity Error",
+        "type" : "object",
+        "properties" : {
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes",
+            "x-ballerina-name" : "debugId"
+          },
+          "name" : {
+            "type" : "string",
+            "enum" : [ "UNPROCESSABLE_ENTITY" ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetails"
+            }
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorLinkDescription"
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The requested action could not be performed, semantically incorrect, or failed business validation." ]
+          }
+        },
+        "description" : "The requested action cannot be performed and may require interaction with APIs or processes outside of the current request. This is distinct from a 500 response in that there are no systemic problems limiting the API from performing the request"
+      },
+      "CapturesRefund422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Capturesrefund422Details"
+            }
+          }
+        }
+      },
+      "INVALIDSTRINGLENGTH2" : {
+        "title" : "INVALID_STRING_LENGTH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_STRING_LENGTH" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "INVALIDSTRINGMAXLENGTH1" : {
+        "title" : "INVALID_STRING_MAX_LENGTH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_STRING_MAX_LENGTH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field is too long." ]
+          }
+        }
+      },
+      "AuthorizationStatusDetails" : {
+        "title" : "Auhorization Status Details",
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "maxLength" : 24,
+            "minLength" : 1,
+            "pattern" : "^[A-Z_]+$",
+            "type" : "string",
+            "description" : "The reason why the authorized status is `PENDING`",
+            "enum" : [ "PENDING_REVIEW" ]
+          }
+        },
+        "description" : "The details of the authorized payment status"
+      },
+      "MISSINGREQUIREDPARAMETER" : {
+        "title" : "MISSING_REQUIRED_PARAMETER",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MISSING_REQUIRED_PARAMETER" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A required field / parameter is missing." ]
+          }
+        }
+      },
+      "AuthorizationsReauthorize422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsreauthorize422Details"
+            }
+          }
+        }
+      },
+      "403Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/PERMISSIONDENIED"
+        } ]
+      },
+      "INVALIDSTRINGLENGTH1" : {
+        "title" : "INVALID_STRING_LENGTH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_STRING_LENGTH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field is either too short or too long." ]
+          }
+        }
+      },
+      "401Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/INVALIDACCOUNTSTATUS"
+        } ]
+      },
+      "CANNOTBEVOIDED" : {
+        "title" : "CANNOT_BE_VOIDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CANNOT_BE_VOIDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A reauthorization cannot be voided. Please void the original parent authorization." ]
+          }
+        }
+      },
+      "AUTHCAPTURECURRENCYMISMATCH" : {
+        "title" : "AUTH_CAPTURE_CURRENCY_MISMATCH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTH_CAPTURE_CURRENCY_MISMATCH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Currency of capture must be the same as currency of authorization." ]
+          }
+        }
+      },
+      "INVALIDPARAMETERVALUE" : {
+        "title" : "INVALID_PARAMETER_VALUE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_PARAMETER_VALUE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The value of a field is invalid." ]
+          }
+        }
+      },
+      "DUPLICATEINVOICEID1" : {
+        "title" : "DUPLICATE_INVOICE_ID",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DUPLICATE_INVOICE_ID" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Invoice ID was previously used to refund a capture." ]
+          }
+        }
+      },
+      "409Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/PREVIOUSREQUESTINPROGRESS"
+        } ]
+      },
+      "Authorizationsreauthorize422Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/INVALIDCURRENCYCODE1"
+        }, {
+          "$ref" : "#/components/schemas/CANNOTBEZEROORNEGATIVE1"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALPRECISION1"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALSNOTSUPPORTED1"
+        }, {
+          "$ref" : "#/components/schemas/TRANSACTIONREFUSED2"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONVOIDED1"
+        }, {
+          "$ref" : "#/components/schemas/PAYERCANNOTPAY1"
+        }, {
+          "$ref" : "#/components/schemas/AUTHORIZATIONALREADYCAPTURED1"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTLOCKEDORCLOSED1"
+        }, {
+          "$ref" : "#/components/schemas/PAYERACCOUNTLOCKEDORCLOSED1"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTRESTRICTED1"
+        }, {
+          "$ref" : "#/components/schemas/REAUTHORIZATIONNOTSUPPORTED"
+        }, {
+          "$ref" : "#/components/schemas/AUTHCURRENCYMISMATCH"
+        } ]
+      },
+      "CANNOTBEZEROORNEGATIVE" : {
+        "title" : "CANNOT_BE_ZERO_OR_NEGATIVE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "CANNOT_BE_ZERO_OR_NEGATIVE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Must be greater than zero. If the currency supports decimals, only two decimal place precision is supported." ]
+          }
+        }
+      },
+      "REFUNDAMOUNTTOOLOW" : {
+        "title" : "REFUND_AMOUNT_TOO_LOW",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_AMOUNT_TOO_LOW" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The amount after applying currency conversion is zero and hence the capture cannot be refunded. The currency conversion is required because the currency of the capture is different than the currency in which the amount was settled into the payee account." ]
+          }
+        }
+      },
+      "INVALIDCURRENCYCODE" : {
+        "title" : "INVALID_CURRENCY_CODE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_CURRENCY_CODE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Currency code is invalid or is not currently supported. Please refer https://developer.paypal.com/docs/api/reference/currency-codes/ for list of supported currency codes." ]
+          }
+        }
+      },
+      "PENDINGCAPTURE" : {
+        "title" : "PENDING_CAPTURE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PENDING_CAPTURE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Cannot initiate a refund as the capture is pending. Capture is typically pending when the payer has funded the transaction using e-check/bank funded." ]
+          }
+        }
+      },
+      "ActivityTimestamps" : {
+        "title" : "Transaction Date and Time Stamps",
+        "type" : "object",
+        "properties" : {
+          "update_time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ],
+            "x-ballerina-name" : "updateTime"
+          },
+          "create_time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DateTime"
+            } ],
+            "x-ballerina-name" : "createTime"
+          }
+        },
+        "description" : "The date and time stamps that are common to authorized payment, captured payment, and refund transactions"
+      },
+      "PREVIOUSLYCAPTURED" : {
+        "title" : "PREVIOUSLY_CAPTURED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PREVIOUSLY_CAPTURED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Authorization has been previously captured and hence cannot be voided." ]
+          }
+        }
+      },
+      "PERMISSIONDENIED" : {
+        "title" : "PERMISSION_DENIED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "PERMISSION_DENIED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "You do not have permission to access or perform operations on this resource." ]
+          }
+        }
+      },
+      "CaptureAllOf2" : {
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The PayPal-generated ID for the captured payment.",
+            "readOnly" : true
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "invoice_id" : {
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+            "readOnly" : true
+          },
+          "custom_id" : {
+            "maxLength" : 127,
+            "type" : "string",
+            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports."
+          },
+          "network_transaction_reference" : {
+            "$ref" : "#/components/schemas/NetworkTransactionReference"
+          },
+          "seller_protection" : {
+            "$ref" : "#/components/schemas/SellerProtection"
+          },
+          "final_capture" : {
+            "type" : "boolean",
+            "description" : "Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization.",
+            "readOnly" : true,
+            "default" : false
+          },
+          "seller_receivable_breakdown" : {
+            "$ref" : "#/components/schemas/SellerReceivableBreakdown"
+          },
+          "disbursement_mode" : {
+            "$ref" : "#/components/schemas/DisbursementMode"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+            "readOnly" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/LinkDescription"
+            }
+          },
+          "processor_response" : {
+            "$ref" : "#/components/schemas/ProcessorResponse"
+          }
+        }
+      },
+      "Capturesrefund400Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/MISSINGREQUIREDPARAMETER2"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDPARAMETERSYNTAX2"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDSTRINGLENGTH2"
+        } ]
+      },
+      "ErrorLinkDescription" : {
+        "title" : "Link Description",
+        "required" : [ "href", "rel" ],
+        "type" : "object",
+        "properties" : {
+          "method" : {
+            "maxLength" : 6,
+            "minLength" : 3,
+            "pattern" : "^[A-Z]*$",
+            "type" : "string",
+            "description" : "The HTTP method required to make the related call",
+            "enum" : [ "GET", "POST", "PUT", "DELETE", "PATCH" ]
+          },
+          "rel" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)"
+          },
+          "href" : {
+            "maxLength" : 20000,
+            "minLength" : 0,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call"
+          }
+        },
+        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information"
+      },
+      "ExchangeRate" : {
+        "title" : "Exchange Rate",
+        "type" : "object",
+        "properties" : {
+          "source_currency" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CurrencyCode"
+            } ],
+            "x-ballerina-name" : "sourceCurrency"
+          },
+          "target_currency" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CurrencyCode"
+            } ],
+            "x-ballerina-name" : "targetCurrency"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point"
+          }
+        },
+        "description" : "The exchange rate that determines the amount to convert from one currency to another currency",
+        "readOnly" : true
+      },
+      "NetworkTransactionReference" : {
+        "title" : "Network Transaction Reference",
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "maxLength" : 4,
+            "minLength" : 4,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as \"BankNet reference date"
+          },
+          "acquirer_reference_number" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9]+$",
+            "type" : "string",
+            "description" : "Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks",
+            "x-ballerina-name" : "acquirerReferenceNumber"
+          },
+          "id" : {
+            "maxLength" : 36,
+            "minLength" : 9,
+            "pattern" : "^[a-zA-Z0-9-]+$",
+            "type" : "string",
+            "description" : "Transaction reference id returned by the scheme. For Visa and Amex, this is the \"Tran id\" field in response. For MasterCard, this is the \"BankNet reference id\" field in response. For Discover, this is the \"NRID\" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -"
+          },
+          "network" : {
+            "$ref" : "#/components/schemas/CardBrand"
+          }
+        },
+        "description" : "Reference values used by the card network to identify a transaction"
+      },
+      "ProcessorResponse" : {
+        "title" : "Processor Response",
+        "type" : "object",
+        "properties" : {
+          "cvv_code" : {
+            "type" : "string",
+            "description" : "The card verification value code for for Visa, Discover, Mastercard, or American Express",
+            "readOnly" : true,
+            "enum" : [ "E", "I", "M", "N", "P", "S", "U", "X", "All others", "0", "1", "2", "3", "4" ],
+            "x-ballerina-name" : "cvvCode"
+          },
+          "response_code" : {
+            "type" : "string",
+            "description" : "Processor response code for the non-PayPal payment processor errors",
+            "readOnly" : true,
+            "enum" : [ "0000", "00N7", "0100", "0390", "0500", "0580", "0800", "0880", "0890", "0960", "0R00", "1000", "10BR", "1300", "1310", "1312", "1317", "1320", "1330", "1335", "1340", "1350", "1352", "1360", "1370", "1380", "1382", "1384", "1390", "1393", "5100", "5110", "5120", "5130", "5135", "5140", "5150", "5160", "5170", "5180", "5190", "5200", "5210", "5400", "5500", "5650", "5700", "5710", "5800", "5900", "5910", "5920", "5930", "5950", "6300", "7600", "7700", "7710", "7800", "7900", "8000", "8010", "8020", "8030", "8100", "8110", "8220", "9100", "9500", "9510", "9520", "9530", "9540", "9600", "PCNR", "PCVV", "PP06", "PPRN", "PPAD", "PPAB", "PPAE", "PPAG", "PPAI", "PPAR", "PPAU", "PPAV", "PPAX", "PPBG", "PPC2", "PPCE", "PPCO", "PPCR", "PPCT", "PPCU", "PPD3", "PPDC", "PPDI", "PPDV", "PPDT", "PPEF", "PPEL", "PPER", "PPEX", "PPFE", "PPFI", "PPFR", "PPFV", "PPGR", "PPH1", "PPIF", "PPII", "PPIM", "PPIT", "PPLR", "PPLS", "PPMB", "PPMC", "PPMD", "PPNC", "PPNL", "PPNM", "PPNT", "PPPH", "PPPI", "PPPM", "PPQC", "PPRE", "PPRF", "PPRR", "PPS0", "PPS1", "PPS2", "PPS3", "PPS4", "PPS5", "PPS6", "PPSC", "PPSD", "PPSE", "PPTE", "PPTF", "PPTI", "PPTR", "PPTT", "PPTV", "PPUA", "PPUC", "PPUE", "PPUI", "PPUP", "PPUR", "PPVC", "PPVE", "PPVT" ],
+            "x-ballerina-name" : "responseCode"
+          },
+          "payment_advice_code" : {
+            "type" : "string",
+            "description" : "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes",
+            "readOnly" : true,
+            "enum" : [ "01", "02", "03", "21" ],
+            "x-ballerina-name" : "paymentAdviceCode"
+          },
+          "avs_code" : {
+            "type" : "string",
+            "description" : "The address verification code for Visa, Discover, Mastercard, or American Express transactions",
+            "readOnly" : true,
+            "enum" : [ "A", "B", "C", "D", "E", "F", "G", "I", "M", "N", "P", "R", "S", "U", "W", "X", "Y", "Z", "Null", "0", "1", "2", "3", "4" ],
+            "x-ballerina-name" : "avsCode"
+          }
+        },
+        "description" : "The processor response information for payment requests, such as direct credit card transactions"
+      },
+      "LinkDescription" : {
+        "title" : "Link Description",
+        "required" : [ "href", "rel" ],
+        "type" : "object",
+        "properties" : {
+          "method" : {
+            "type" : "string",
+            "description" : "The HTTP method required to make the related call",
+            "enum" : [ "GET", "POST", "PUT", "DELETE", "HEAD", "CONNECT", "OPTIONS", "PATCH" ]
+          },
+          "rel" : {
+            "type" : "string",
+            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)"
+          },
+          "href" : {
+            "type" : "string",
+            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call"
+          }
+        },
+        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information"
+      },
+      "REFUNDCAPTURECURRENCYMISMATCH" : {
+        "title" : "REFUND_CAPTURE_CURRENCY_MISMATCH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_CAPTURE_CURRENCY_MISMATCH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Refund must be in the same currency as the capture" ]
+          }
+        }
+      },
+      "Authorization2AllOf2" : {
+        "properties" : {
+          "supplementary_data" : {
+            "$ref" : "#/components/schemas/SupplementaryData"
+          },
+          "payee" : {
+            "$ref" : "#/components/schemas/PayeeBase"
+          }
+        }
+      },
+      "PaymentInstruction" : {
+        "title" : "Payment Instruction",
+        "type" : "object",
+        "properties" : {
+          "disbursement_mode" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DisbursementMode"
+            } ],
+            "x-ballerina-name" : "disbursementMode"
+          },
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability",
+            "items" : {
+              "$ref" : "#/components/schemas/PlatformFee"
+            },
+            "x-ballerina-name" : "platformFees"
+          },
+          "payee_receivable_fx_rate_id" : {
+            "maxLength" : 4000,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account",
+            "x-ballerina-name" : "payeeReceivableFxRateId"
+          },
+          "payee_pricing_tier_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error",
+            "x-ballerina-name" : "payeePricingTierId"
+          }
+        },
+        "description" : "Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order"
+      },
+      "AUTHCURRENCYMISMATCH" : {
+        "title" : "AUTH_CURRENCY_MISMATCH",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTH_CURRENCY_MISMATCH" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "The currency specified during reauthorization should be the same as the currency specified in the original authorization. Please check the currency of the authorization for which you are trying to reauthorize and try again." ]
+          }
+        }
+      },
+      "Capturesrefund422Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/CANNOTBEZEROORNEGATIVE2"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALPRECISION2"
+        }, {
+          "$ref" : "#/components/schemas/DECIMALSNOTSUPPORTED2"
+        }, {
+          "$ref" : "#/components/schemas/INVALIDCURRENCYCODE2"
+        }, {
+          "$ref" : "#/components/schemas/CURRENCYMISMATCH"
+        }, {
+          "$ref" : "#/components/schemas/CANNOTBENEGATIVE"
+        }, {
+          "$ref" : "#/components/schemas/CAPTUREFULLYREFUNDED"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDCAPTURECURRENCYMISMATCH"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDNOTALLOWED"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDTIMELIMITEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDAMOUNTEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDAMOUNTTOOLOW"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDFAILEDINSUFFICIENTFUNDS"
+        }, {
+          "$ref" : "#/components/schemas/PARTIALREFUNDNOTALLOWED"
+        }, {
+          "$ref" : "#/components/schemas/MAXNUMBEROFREFUNDSEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/PENDINGCAPTURE"
+        }, {
+          "$ref" : "#/components/schemas/DUPLICATEINVOICEID1"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTLOCKEDORCLOSED2"
+        }, {
+          "$ref" : "#/components/schemas/PAYERACCOUNTLOCKEDORCLOSED2"
+        }, {
+          "$ref" : "#/components/schemas/PAYEEACCOUNTRESTRICTED2"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDNOTPERMITTEDDUETOCHARGEBACK"
+        }, {
+          "$ref" : "#/components/schemas/TRANSACTIONDISPUTED"
+        }, {
+          "$ref" : "#/components/schemas/PLATFORMFEEEXCEEDED"
+        }, {
+          "$ref" : "#/components/schemas/REFUNDISRESTRICTED"
+        }, {
+          "$ref" : "#/components/schemas/PLATFORMFEENOTENABLED"
+        } ]
+      },
+      "Schema'422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/422Details"
+            }
+          }
+        }
+      },
+      "Money" : {
+        "title" : "Money",
+        "required" : [ "currency_code", "value" ],
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "maxLength" : 32,
+            "pattern" : "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "type" : "string",
+            "description" : "The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/)"
+          },
+          "currency_code" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CurrencyCode"
+            } ],
+            "x-ballerina-name" : "currencyCode"
+          }
+        },
+        "description" : "The currency and amount for a financial transaction, such as a balance or payment due"
+      },
+      "RelatedIds" : {
+        "title" : "Related Identifiers",
+        "type" : "object",
+        "properties" : {
+          "authorization_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Authorization ID related to the resource",
+            "x-ballerina-name" : "authorizationId"
+          },
+          "capture_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Capture ID related to the resource",
+            "x-ballerina-name" : "captureId"
+          },
+          "order_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Order ID related to the resource",
+            "x-ballerina-name" : "orderId"
+          }
+        },
+        "description" : "Identifiers related to a specific resource"
+      },
+      "SellerProtection" : {
+        "title" : "Seller Protection",
+        "type" : "object",
+        "properties" : {
+          "dispute_categories" : {
+            "type" : "array",
+            "description" : "An array of conditions that are covered for the transaction",
+            "readOnly" : true,
+            "items" : {
+              "type" : "string",
+              "description" : "The condition that is covered for the transaction.",
+              "enum" : [ "ITEM_NOT_RECEIVED", "UNAUTHORIZED_TRANSACTION" ]
+            },
+            "x-ballerina-name" : "disputeCategories"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection)",
+            "readOnly" : true,
+            "enum" : [ "ELIGIBLE", "PARTIALLY_ELIGIBLE", "NOT_ELIGIBLE" ]
+          }
+        },
+        "description" : "The level of protection offered as defined by [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection)"
+      },
+      "REFUNDTIMELIMITEXCEEDED" : {
+        "title" : "REFUND_TIME_LIMIT_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "REFUND_TIME_LIMIT_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "You are over the time limit to perform a refund on this capture" ]
+          }
+        }
+      },
+      "CapturesRefund400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Capturesrefund400Details"
+            }
+          }
+        }
+      },
+      "AUTHORIZATIONVOIDED1" : {
+        "title" : "AUTHORIZATION_VOIDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_VOIDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "A voided authorization cannot be captured or reauthorized. " ]
+          }
+        }
+      },
+      "Authorization2" : {
+        "title" : "Authorization",
+        "type" : "object",
+        "description" : "The authorized payment transaction",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Authorization"
+        }, {
+          "$ref" : "#/components/schemas/Authorization2AllOf2"
+        } ]
+      },
+      "NetAmountBreakdownItem" : {
+        "title" : "Net Amount Breakdown Item",
+        "type" : "object",
+        "properties" : {
+          "exchange_rate" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ExchangeRate"
+            } ],
+            "x-ballerina-name" : "exchangeRate"
+          },
+          "converted_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "convertedAmount"
+          },
+          "payable_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "payableAmount"
+          }
+        },
+        "description" : "The net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the merchant holds their funds"
+      },
+      "AuthorizationsReauthorize400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsreauthorize400Details"
+            }
+          }
+        }
+      },
+      "DECIMALPRECISION" : {
+        "title" : "DECIMAL_PRECISION",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMAL_PRECISION" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "If the currency supports decimals, only two decimal place precision is supported." ]
+          }
+        }
+      },
+      "DECIMALSNOTSUPPORTED2" : {
+        "title" : "DECIMALS_NOT_SUPPORTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMALS_NOT_SUPPORTED" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DECIMALSNOTSUPPORTED1" : {
+        "title" : "DECIMALS_NOT_SUPPORTED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "DECIMALS_NOT_SUPPORTED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Currency does not support decimals. Please refer to https://developer.paypal.com/docs/api/reference/currency-codes/ for more information." ]
+          }
+        }
+      },
+      "INVALIDCURRENCYCODE2" : {
+        "title" : "INVALID_CURRENCY_CODE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_CURRENCY_CODE" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "INVALIDCURRENCYCODE1" : {
+        "title" : "INVALID_CURRENCY_CODE",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "INVALID_CURRENCY_CODE" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Currency code is invalid or is not currently supported. Please refer https://developer.paypal.com/docs/api/reference/currency-codes/ for list of supported currency codes." ]
+          }
+        }
+      },
+      "Authorizationsvoid422Details" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/PREVIOUSLYCAPTURED"
+        }, {
+          "$ref" : "#/components/schemas/PREVIOUSLYVOIDED"
+        }, {
+          "$ref" : "#/components/schemas/CANNOTBEVOIDED"
+        } ]
+      },
+      "MerchantPayableBreakdown" : {
+        "title" : "Merchant Payable Breakdown",
+        "type" : "object",
+        "properties" : {
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of platform or partner fees, commissions, or brokerage fees for the refund",
+            "items" : {
+              "$ref" : "#/components/schemas/PlatformFee"
+            },
+            "x-ballerina-name" : "platformFees"
+          },
+          "net_amount_in_receivable_currency" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "netAmountInReceivableCurrency"
+          },
+          "total_refunded_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "totalRefundedAmount"
+          },
+          "paypal_fee" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "paypalFee"
+          },
+          "gross_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "grossAmount"
+          },
+          "paypal_fee_in_receivable_currency" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "paypalFeeInReceivableCurrency"
+          },
+          "net_amount" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            } ],
+            "x-ballerina-name" : "netAmount"
+          },
+          "net_amount_breakdown" : {
+            "type" : "array",
+            "description" : "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds",
+            "readOnly" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/NetAmountBreakdownItem"
+            },
+            "x-ballerina-name" : "netAmountBreakdown"
+          }
+        },
+        "description" : "The breakdown of the refund",
+        "readOnly" : true
+      },
+      "RefundStatusDetails" : {
+        "title" : "Refund Status Details",
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : "string",
+            "description" : "The reason why the refund has the `PENDING` or `FAILED` status",
+            "enum" : [ "ECHECK" ]
+          }
+        },
+        "description" : "The details of the refund status"
+      },
+      "InlineResponse4221" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error422"
+        }, {
+          "$ref" : "#/components/schemas/AuthorizationsReauthorize422"
+        } ]
+      },
+      "AUTHORIZATIONEXPIRED" : {
+        "title" : "AUTHORIZATION_EXPIRED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "AUTHORIZATION_EXPIRED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "An expired authorization cannot be captured." ]
+          }
+        }
+      },
+      "RefundAllOf2" : {
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The PayPal-generated ID for the refund.",
+            "readOnly" : true
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "invoice_id" : {
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+            "readOnly" : true
+          },
+          "custom_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^[A-Za-z0-9-_.,]*$",
+            "type" : "string",
+            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports."
+          },
+          "acquirer_reference_number" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9]+$",
+            "type" : "string",
+            "description" : "Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks."
+          },
+          "note_to_payer" : {
+            "type" : "string",
+            "description" : "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives.",
+            "readOnly" : true
+          },
+          "seller_payable_breakdown" : {
+            "$ref" : "#/components/schemas/MerchantPayableBreakdown"
+          },
+          "payer" : {
+            "$ref" : "#/components/schemas/PayeeBase"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+            "readOnly" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/LinkDescription"
+            }
+          }
+        }
+      },
+      "InlineResponse4222" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error422"
+        }, {
+          "$ref" : "#/components/schemas/AuthorizationsVoid422"
+        } ]
+      },
+      "CaptureRequest" : {
+        "title" : "Capture Request",
+        "type" : "object",
+        "description" : "Captures either a portion or the full authorized amount of an authorized payment",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/SupplementaryPurchaseData"
+        }, {
+          "$ref" : "#/components/schemas/CaptureRequestAllOf2"
+        } ]
+      },
+      "DisbursementMode" : {
+        "title" : "Disbursement Mode",
+        "maxLength" : 16,
+        "minLength" : 1,
+        "pattern" : "^[A-Z_]+$",
+        "type" : "string",
+        "description" : "The funds that are held on behalf of the merchant",
+        "default" : "INSTANT",
+        "enum" : [ "INSTANT", "DELAYED" ]
+      },
+      "PlatformFee" : {
+        "title" : "Platform Fee",
+        "required" : [ "amount" ],
+        "type" : "object",
+        "properties" : {
+          "payee" : {
+            "$ref" : "#/components/schemas/PayeeBase"
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "description" : "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit"
+      },
+      "InlineResponse4223" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Error422"
+        }, {
+          "$ref" : "#/components/schemas/CapturesRefund422"
+        } ]
+      },
+      "MAXCAPTURECOUNTEXCEEDED" : {
+        "title" : "MAX_CAPTURE_COUNT_EXCEEDED",
+        "properties" : {
+          "issue" : {
+            "type" : "string",
+            "enum" : [ "MAX_CAPTURE_COUNT_EXCEEDED" ]
+          },
+          "description" : {
+            "type" : "string",
+            "enum" : [ "Maxmimum number of allowable captures has been reached. No additional captures are possible for this authorization. Contact Customer Service or your account manager to change the number of captures for a given authorization." ]
+          }
+        }
+      }
+    },
+    "responses" : {
+      "default" : {
+        "description" : "The default response.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorDefault"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "authorization_id" : {
+        "name" : "authorizationId",
+        "in" : "path",
+        "description" : "The PayPal-generated ID for the authorized payment to void",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "paypal_request_id" : {
+        "name" : "PayPal-Request-Id",
+        "in" : "header",
+        "description" : "The server stores keys for 45 days",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "x-ballerina-name" : "payPalRequestId"
+      },
+      "prefer" : {
+        "name" : "Prefer",
+        "in" : "header",
+        "description" : "The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul>",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string",
+          "default" : "return=minimal"
+        },
+        "x-ballerina-name" : "prefer"
+      },
+      "paypal_auth_assertion" : {
+        "name" : "PayPal-Auth-Assertion",
+        "in" : "header",
+        "description" : "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).<blockquote><strong>Note:</strong>For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.</blockquote>",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "x-ballerina-name" : "payPalAuthAssertion"
+      },
+      "capture_id" : {
+        "name" : "captureId",
+        "in" : "path",
+        "description" : "The PayPal-generated ID for the captured payment to refund",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "refund_id" : {
+        "name" : "refundId",
+        "in" : "path",
+        "description" : "The PayPal-generated ID for the refund for which to show details",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "Oauth2" : {
+        "type" : "oauth2",
+        "description" : "OAuth 2.0 authentication",
+        "flows" : {
+          "clientCredentials" : {
+            "tokenUrl" : "/v1/oauth2/token",
+            "scopes" : {
+              "https://uri.paypal.com/services/payments/payment/authcapture" : "Permission to do non-real time payments like capture on authorization",
+              "https://uri.paypal.com/services/payments/refund" : "Permission to initiate a refund on a capture transaction",
+              "https://uri.paypal.com/services/payments/non-referenced-credit" : "Permission to initiate non referenced credit",
+              "https://uri.paypal.com/services/payments/realtimepayment" : "Permission to do any real time payment, with support for sale/authorize/order intents",
+              "https://uri.paypal.com/services/payments/reversepayment" : "Permission to do any reverse payment"
+            }
+          }
+        }
+      }
+    }
+  }
+}
