@@ -745,7 +745,7 @@
         },
         "description" : "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor"
       },
-      "Schema'409" : {
+      "Conflict" : {
         "properties" : {
           "details" : {
             "type" : "array",
@@ -764,7 +764,7 @@
         "description" : "The card network or brand. Applies to credit, debit, gift, and payment cards",
         "enum" : [ "VISA", "MASTERCARD", "DISCOVER", "AMEX", "SOLO", "JCB", "STAR", "DELTA", "SWITCH", "MAESTRO", "CB_NATIONALE", "CONFIGOGA", "CONFIDIS", "ELECTRON", "CETELEM", "CHINA_UNION_PAY" ]
       },
-      "Schema'404" : {
+      "NotFound" : {
         "properties" : {
           "details" : {
             "type" : "array",
@@ -787,7 +787,7 @@
           }
         }
       },
-      "Schema'403" : {
+      "Forbidden" : {
         "properties" : {
           "details" : {
             "type" : "array",
@@ -817,7 +817,7 @@
           "$ref" : "#/components/schemas/ActivityTimestamps"
         } ]
       },
-      "Schema'401" : {
+      "Unauthorized" : {
         "properties" : {
           "details" : {
             "type" : "array",
@@ -834,7 +834,7 @@
         "description" : "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency",
         "format" : "ppaas_common_currency_code_v2"
       },
-      "Schema'400" : {
+      "BadRequest" : {
         "properties" : {
           "details" : {
             "type" : "array",
@@ -1253,14 +1253,14 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error401"
         }, {
-          "$ref" : "#/components/schemas/Schema'401"
+          "$ref" : "#/components/schemas/Unauthorized"
         } ]
       },
       "InlineResponse400" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error400"
         }, {
-          "$ref" : "#/components/schemas/Schema'400"
+          "$ref" : "#/components/schemas/BadRequest"
         } ]
       },
       "ErrorDetails" : {
@@ -1294,7 +1294,7 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error403"
         }, {
-          "$ref" : "#/components/schemas/Schema'403"
+          "$ref" : "#/components/schemas/Forbidden"
         } ]
       },
       "INVALIDACCOUNTSTATUS" : {
@@ -1314,7 +1314,7 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error404"
         }, {
-          "$ref" : "#/components/schemas/Schema'404"
+          "$ref" : "#/components/schemas/NotFoundgi"
         } ]
       },
       "Authorization" : {
@@ -1826,7 +1826,7 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error409"
         }, {
-          "$ref" : "#/components/schemas/Schema'409"
+          "$ref" : "#/components/schemas/Conflict"
         } ]
       },
       "CaptureRequestAllOf2" : {
@@ -2106,7 +2106,7 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Error422"
         }, {
-          "$ref" : "#/components/schemas/Schema'422"
+          "$ref" : "#/components/schemas/UnprocessableContent"
         } ]
       },
       "AUTHORIZATIONALREADYCAPTURED" : {
@@ -2893,7 +2893,7 @@
           "$ref" : "#/components/schemas/PLATFORMFEENOTENABLED"
         } ]
       },
-      "Schema'422" : {
+      "UnprocessableContent" : {
         "properties" : {
           "details" : {
             "type" : "array",
