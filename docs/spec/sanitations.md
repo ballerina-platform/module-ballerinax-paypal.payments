@@ -10,7 +10,7 @@ The OpenAPI specification is obtained from (TODO: Add source link).
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
 [//]: # (TODO: Add sanitation details)
-1. In types.bal changes
+1. In types.bal file changed these into these values.
 
 /v2/payments/authorizations/{authorization_id}" - /authorizations/{authorization_id}" 
     /v2/payments/authorizations/{authorization_id}/capture - /authorizations/{authorization_id}/capture
