@@ -1,6 +1,6 @@
-_Author_:  <!-- TODO: Add author name --> \
-_Created_: <!-- TODO: Add date --> \
-_Updated_: <!-- TODO: Add date --> \
+_Author_:  Pamal Neerna \
+_Created_: 06.21.2025 \
+_Updated_: 06.21.2025\
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
@@ -30,4 +30,4 @@ The following command was used to generate the Ballerina client from the OpenAPI
 ```bash
 # TODO: Add OpenAPI CLI command used to generate the client
 ```
-Note: The license year is hardcoded to 2024, change if necessary.
+Note: The license year is hardcoded to 2025, change if necessary.
