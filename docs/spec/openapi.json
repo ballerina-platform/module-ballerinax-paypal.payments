@@ -10,10 +10,10 @@
     "url" : "https://developer.paypal.com/docs/api/payments/v2/"
   },
   "servers" : [ {
-    "url" : "https://api-m.sandbox.paypal.com/v2/payments",
+    "url" : "https://api-m.sandbox.paypal.com",
     "description" : "PayPal Sandbox Environment"
   }, {
-    "url" : "https://api-m.paypal.com/v2/payments",
+    "url" : "https://api-m.paypal.com",
     "description" : "PayPal Live Environment"
   } ],
   "tags" : [ {
@@ -39,7 +39,7 @@
     "description" : "Use the `/payment-resource-operations` resource to show verifications details."
   } ],
   "paths" : {
-    "/authorizations/{authorizationId}" : {
+    "/authorizations/{authorization_id}" : {
       "get" : {
         "tags" : [ "authorizations" ],
         "summary" : "Show details for authorized payment",
@@ -50,11 +50,11 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details",
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Authorization2"
+                  "$ref" : "#/components/schemas/authorization-2"
                 }
               }
             }
@@ -64,7 +64,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Error401"
+                  "$ref" : "#/components/schemas/error_401"
                 }
               }
             }
@@ -101,7 +101,7 @@
         } ]
       }
     },
-    "/authorizations/{authorizationId}/capture" : {
+    "/authorizations/{authorization_id}/capture" : {
       "post" : {
         "tags" : [ "authorizations" ],
         "summary" : "Capture authorized payment",
@@ -118,7 +118,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/CaptureRequest"
+                "$ref" : "#/components/schemas/capture_request"
               },
               "examples" : {
                 "capture_request" : {
@@ -139,11 +139,11 @@
         },
         "responses" : {
           "201" : {
-            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows captured payment details",
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows captured payment details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Capture2"
+                  "$ref" : "#/components/schemas/capture-2"
                 }
               }
             }
@@ -163,7 +163,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Error401"
+                  "$ref" : "#/components/schemas/error_401"
                 }
               }
             }
@@ -210,7 +210,7 @@
         } ]
       }
     },
-    "/authorizations/{authorizationId}/reauthorize" : {
+    "/authorizations/{authorization_id}/reauthorize" : {
       "post" : {
         "tags" : [ "authorizations" ],
         "summary" : "Reauthorize authorized payment",
@@ -227,7 +227,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/ReauthorizeRequest"
+                "$ref" : "#/components/schemas/reauthorize_request"
               },
               "examples" : {
                 "reauthorize_request" : {
@@ -244,11 +244,11 @@
         },
         "responses" : {
           "201" : {
-            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows the reauthorized payment details",
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows the reauthorized payment details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Authorization2"
+                  "$ref" : "#/components/schemas/authorization-2"
                 }
               }
             }
@@ -268,7 +268,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Error401"
+                  "$ref" : "#/components/schemas/error_401"
                 }
               }
             }
@@ -315,7 +315,7 @@
         } ]
       }
     },
-    "/authorizations/{authorizationId}/void" : {
+    "/authorizations/{authorization_id}/void" : {
       "post" : {
         "tags" : [ "authorizations" ],
         "summary" : "Void authorized payment",
@@ -330,11 +330,11 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details. This response is returned when the Prefer header is set to return=representation",
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows authorization details. This response is returned when the Prefer header is set to return=representation.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Authorization2"
+                  "$ref" : "#/components/schemas/authorization-2"
                 }
               }
             }
@@ -347,7 +347,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Error400"
+                  "$ref" : "#/components/schemas/error_400"
                 }
               }
             }
@@ -414,7 +414,7 @@
         } ]
       }
     },
-    "/captures/{captureId}" : {
+    "/captures/{capture_id}" : {
       "get" : {
         "tags" : [ "captures" ],
         "summary" : "Show captured payment details",
@@ -425,11 +425,11 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows captured payment details",
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows captured payment details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Capture2"
+                  "$ref" : "#/components/schemas/capture-2"
                 }
               }
             }
@@ -439,7 +439,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Error401"
+                  "$ref" : "#/components/schemas/error_401"
                 }
               }
             }
@@ -476,7 +476,7 @@
         } ]
       }
     },
-    "/captures/{captureId}/refund" : {
+    "/captures/{capture_id}/refund" : {
       "post" : {
         "tags" : [ "captures" ],
         "summary" : "Refund captured payment",
@@ -495,7 +495,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/RefundRequest"
+                "$ref" : "#/components/schemas/refund_request"
               },
               "examples" : {
                 "refund_request" : {
@@ -522,11 +522,11 @@
         },
         "responses" : {
           "201" : {
-            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows refund details",
+            "description" : "A successful request returns the HTTP <code>201 Created</code> status code and a JSON response body that shows refund details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Refund"
+                  "$ref" : "#/components/schemas/refund"
                 }
               }
             }
@@ -603,7 +603,7 @@
         } ]
       }
     },
-    "/refunds/{refundId}" : {
+    "/refunds/{refund_id}" : {
       "get" : {
         "tags" : [ "refunds" ],
         "summary" : "Show refund details",
@@ -614,11 +614,11 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows refund details",
+            "description" : "A successful request returns the HTTP <code>200 OK</code> status code and a JSON response body that shows refund details.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Refund"
+                  "$ref" : "#/components/schemas/refund"
                 }
               }
             }
@@ -668,40 +668,35 @@
   },
   "components" : {
     "schemas" : {
-      "Error503" : {
-        "title" : "Service Unavailable Error",
+      "error_link_description" : {
+        "title" : "Link Description",
+        "required" : [ "href", "rel" ],
         "type" : "object",
         "properties" : {
-          "debug_id" : {
+          "href" : {
+            "maxLength" : 20000,
+            "minLength" : 0,
+            "pattern" : "^.*$",
             "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
+            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call."
           },
-          "name" : {
+          "rel" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "^.*$",
             "type" : "string",
-            "enum" : [ "SERVICE_UNAVAILABLE" ]
+            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)."
           },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
+          "method" : {
+            "maxLength" : 6,
+            "minLength" : 3,
+            "pattern" : "^[A-Z]*$",
             "type" : "string",
-            "enum" : [ "Service Unavailable." ]
+            "description" : "The HTTP method required to make the related call.",
+            "enum" : [ "GET", "POST", "PUT", "DELETE", "PATCH" ]
           }
         },
-        "description" : "The server is temporarily unable to handle the request, for example, because of planned maintenance or downtime",
-        "example" : {
-          "name" : "SERVICE_UNAVAILABLE",
-          "message" : "Service Unavailable.",
-          "debug_id" : "90957fca61718",
-          "information_link" : "https://developer.paypal.com/docs/api/orders/v2/#error-SERVICE_UNAVAILABLE"
-        }
+        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information."
       },
       "INVALIDPARAMETERSYNTAX" : {
         "title" : "INVALID_PARAMETER_SYNTAX",
@@ -716,63 +711,39 @@
           }
         }
       },
-      "ErrorLocation" : {
-        "type" : "string",
-        "description" : "The location of the field that caused the error. Value is `body`, `path`, or `query`",
-        "default" : "body",
-        "enum" : [ "body", "path", "query" ]
-      },
-      "SupplementaryPurchaseData" : {
-        "title" : "Capture Identifier",
+      "error_415" : {
+        "title" : "Unsupported Media Type Error",
         "type" : "object",
         "properties" : {
-          "invoice_id" : {
-            "maxLength" : 127,
-            "minLength" : 1,
-            "pattern" : "^.{1,127}$",
+          "name" : {
             "type" : "string",
-            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives",
-            "x-ballerina-name" : "invoiceId"
+            "enum" : [ "UNSUPPORTED_MEDIA_TYPE" ]
           },
-          "note_to_payer" : {
-            "maxLength" : 255,
-            "minLength" : 1,
-            "pattern" : "^.{1,255}$",
+          "message" : {
             "type" : "string",
-            "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives",
-            "x-ballerina-name" : "noteToPayer"
+            "enum" : [ "The server does not support the request payload's media type." ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error_details"
+            }
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
           }
         },
-        "description" : "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor"
-      },
-      "Conflict" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/409Details"
-            }
-          }
-        }
-      },
-      "CardBrand" : {
-        "title" : "Card Brand",
-        "maxLength" : 255,
-        "minLength" : 1,
-        "pattern" : "^[A-Z_]+$",
-        "type" : "string",
-        "description" : "The card network or brand. Applies to credit, debit, gift, and payment cards",
-        "enum" : [ "VISA", "MASTERCARD", "DISCOVER", "AMEX", "SOLO", "JCB", "STAR", "DELTA", "SWITCH", "MAESTRO", "CB_NATIONALE", "CONFIGOGA", "CONFIDIS", "ELECTRON", "CETELEM", "CHINA_UNION_PAY" ]
-      },
-      "NotFound" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/404Details"
-            }
-          }
-        }
+        "description" : "The server does not support the request payload's media type."
       },
       "REFUNDAMOUNTEXCEEDED" : {
         "title" : "REFUND_AMOUNT_EXCEEDED",
@@ -787,62 +758,84 @@
           }
         }
       },
-      "Forbidden" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/403Details"
-            }
-          }
-        }
-      },
-      "DateTime" : {
-        "maxLength" : 64,
-        "minLength" : 20,
-        "pattern" : "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
-        "type" : "string",
-        "description" : "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.<blockquote><strong>Note:</strong> The regular expression provides guidance but does not reject all invalid dates.</blockquote>",
-        "format" : "ppaas_date_time_v3"
-      },
-      "Capture" : {
-        "title" : "Capture",
+      "refund_status_details" : {
+        "title" : "Refund Status Details",
         "type" : "object",
-        "description" : "A captured payment",
+        "properties" : {
+          "reason" : {
+            "type" : "string",
+            "description" : "The reason why the refund has the `PENDING` or `FAILED` status.",
+            "enum" : [ "ECHECK" ]
+          }
+        },
+        "description" : "The details of the refund status."
+      },
+      "authorization" : {
+        "title" : "Authorization",
+        "type" : "object",
+        "description" : "The authorized payment transaction.",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/CaptureStatus"
+          "$ref" : "#/components/schemas/authorization_status"
         }, {
-          "$ref" : "#/components/schemas/CaptureAllOf2"
+          "$ref" : "#/components/schemas/AuthorizationAllOf2"
         }, {
-          "$ref" : "#/components/schemas/ActivityTimestamps"
+          "$ref" : "#/components/schemas/activity_timestamps"
         } ]
       },
-      "Unauthorized" : {
+      "error_422" : {
+        "title" : "Unprocessable Entity Error",
+        "type" : "object",
         "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "UNPROCESSABLE_ENTITY" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The requested action could not be performed, semantically incorrect, or failed business validation." ]
+          },
           "details" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/401Details"
+              "$ref" : "#/components/schemas/error_details"
             }
-          }
-        }
-      },
-      "CurrencyCode" : {
-        "maxLength" : 3,
-        "minLength" : 3,
-        "type" : "string",
-        "description" : "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency",
-        "format" : "ppaas_common_currency_code_v2"
-      },
-      "BadRequest" : {
-        "properties" : {
-          "details" : {
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
             "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
             "items" : {
-              "$ref" : "#/components/schemas/400Details"
+              "$ref" : "#/components/schemas/error_link_description"
             }
           }
-        }
+        },
+        "description" : "The requested action cannot be performed and may require interaction with APIs or processes outside of the current request. This is distinct from a 500 response in that there are no systemic problems limiting the API from performing the request."
+      },
+      "supplementary_purchase_data" : {
+        "title" : "Capture Identifier",
+        "type" : "object",
+        "properties" : {
+          "invoice_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.{1,127}$",
+            "type" : "string",
+            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives."
+          },
+          "note_to_payer" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^.{1,255}$",
+            "type" : "string",
+            "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives."
+          }
+        },
+        "description" : "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor."
       },
       "PARTIALREFUNDNOTALLOWED" : {
         "title" : "PARTIAL_REFUND_NOT_ALLOWED",
@@ -857,43 +850,21 @@
           }
         }
       },
-      "Error500" : {
-        "title" : "Internal Server Error",
+      "authorization_status" : {
+        "title" : "Authorization Status",
         "type" : "object",
         "properties" : {
-          "debug_id" : {
+          "status" : {
             "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
+            "description" : "The status for the authorized payment.",
+            "readOnly" : true,
+            "enum" : [ "CREATED", "CAPTURED", "DENIED", "PARTIALLY_CAPTURED", "VOIDED", "PENDING" ]
           },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "INTERNAL_SERVER_ERROR" ]
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "An internal server error occurred." ]
+          "status_details" : {
+            "$ref" : "#/components/schemas/authorization_status_details"
           }
         },
-        "description" : "This is either a system or application error, and generally indicates that although the client appeared to provide a correct request, something unexpected has gone wrong on the server",
-        "example" : {
-          "name" : "INTERNAL_SERVER_ERROR",
-          "message" : "An internal server error occurred.",
-          "debug_id" : "90957fca61718",
-          "links" : [ {
-            "href" : "https://developer.paypal.com/api/orders/v2/#error-INTERNAL_SERVER_ERROR",
-            "rel" : "information_link"
-          } ]
-        }
+        "description" : "The status fields for an authorized payment."
       },
       "DECIMALPRECISION2" : {
         "title" : "DECIMAL_PRECISION",
@@ -920,6 +891,56 @@
           }
         }
       },
+      "refund_request" : {
+        "title" : "Refund Request",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "custom_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode."
+          },
+          "invoice_id" : {
+            "maxLength" : 127,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode."
+          },
+          "note_to_payer" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode."
+          },
+          "payment_instruction" : {
+            "$ref" : "#/components/schemas/payment_instruction-2"
+          }
+        },
+        "description" : "Refunds a captured payment, by ID. For a full refund, include an empty request body. For a partial refund, include an <code>amount</code> object in the request body."
+      },
+      "refund_status" : {
+        "title" : "Refund Status",
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the refund.",
+            "readOnly" : true,
+            "enum" : [ "CANCELLED", "FAILED", "PENDING", "COMPLETED" ]
+          },
+          "status_details" : {
+            "$ref" : "#/components/schemas/refund_status_details"
+          }
+        },
+        "description" : "The refund status."
+      },
       "CURRENCYMISMATCH" : {
         "title" : "CURRENCY_MISMATCH",
         "properties" : {
@@ -932,24 +953,23 @@
           }
         }
       },
-      "RefundStatus" : {
-        "title" : "Refund Status",
+      "exchange_rate" : {
+        "title" : "Exchange Rate",
         "type" : "object",
         "properties" : {
-          "status_details" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/RefundStatusDetails"
-            } ],
-            "x-ballerina-name" : "statusDetails"
+          "source_currency" : {
+            "$ref" : "#/components/schemas/currency_code"
           },
-          "status" : {
+          "target_currency" : {
+            "$ref" : "#/components/schemas/currency_code"
+          },
+          "value" : {
             "type" : "string",
-            "description" : "The status of the refund",
-            "readOnly" : true,
-            "enum" : [ "CANCELLED", "FAILED", "PENDING", "COMPLETED" ]
+            "description" : "The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point."
           }
         },
-        "description" : "The refund status"
+        "description" : "The exchange rate that determines the amount to convert from one currency to another currency.",
+        "readOnly" : true
       },
       "REFUNDNOTPERMITTEDDUETOCHARGEBACK" : {
         "title" : "REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK",
@@ -1001,6 +1021,16 @@
           }
         }
       },
+      "captures.refund-400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Capturesrefund400Details"
+            }
+          }
+        }
+      },
       "INVALIDPARAMETERSYNTAX2" : {
         "title" : "INVALID_PARAMETER_SYNTAX",
         "properties" : {
@@ -1012,6 +1042,74 @@
             "type" : "string"
           }
         }
+      },
+      "error_403" : {
+        "title" : "Not Authorized Error",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "NOT_AUTHORIZED" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Authorization failed due to insufficient permissions." ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error_details"
+            }
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
+          }
+        },
+        "description" : "The client is not authorized to access this resource, although it may have valid credentials. "
+      },
+      "error_404" : {
+        "title" : "Not found Error",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "RESOURCE_NOT_FOUND" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The specified resource does not exist." ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error_details"
+            }
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
+          }
+        },
+        "description" : "The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available."
       },
       "INVALIDRESOURCEID" : {
         "title" : "INVALID_RESOURCE_ID",
@@ -1026,6 +1124,40 @@
           }
         }
       },
+      "error_409" : {
+        "title" : "Resource Conflict Error",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "RESOURCE_CONFLICT" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "The server has detected a conflict while processing this request." ]
+          },
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/error_details"
+            }
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
+          }
+        },
+        "description" : "The server has detected a conflict while processing this request."
+      },
       "TRANSACTIONREFUSED2" : {
         "title" : "TRANSACTION_REFUSED",
         "properties" : {
@@ -1039,50 +1171,103 @@
           }
         }
       },
-      "Capture2" : {
-        "title" : "Capture",
-        "type" : "object",
-        "description" : "A captured payment",
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Capture"
-        }, {
-          "$ref" : "#/components/schemas/Capture2AllOf2"
-        } ]
+      "400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/400Details"
+            }
+          }
+        }
       },
       "Capture2AllOf2" : {
         "properties" : {
           "supplementary_data" : {
-            "$ref" : "#/components/schemas/SupplementaryData"
+            "$ref" : "#/components/schemas/supplementary_data"
           },
           "payee" : {
-            "$ref" : "#/components/schemas/PayeeBase"
+            "$ref" : "#/components/schemas/payee_base"
           }
         }
       },
-      "Refund" : {
-        "title" : "Refund",
+      "401" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/401Details"
+            }
+          }
+        }
+      },
+      "seller_receivable_breakdown" : {
+        "title" : "Seller Receivable Breakdown",
+        "required" : [ "gross_amount" ],
         "type" : "object",
-        "description" : "The refund information",
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/RefundStatus"
-        }, {
-          "$ref" : "#/components/schemas/RefundAllOf2"
-        }, {
-          "$ref" : "#/components/schemas/ActivityTimestamps"
-        } ]
+        "properties" : {
+          "gross_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "paypal_fee" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "paypal_fee_in_receivable_currency" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "net_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "receivable_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "exchange_rate" : {
+            "$ref" : "#/components/schemas/exchange_rate"
+          },
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment.",
+            "items" : {
+              "$ref" : "#/components/schemas/platform_fee"
+            }
+          }
+        },
+        "description" : "The detailed breakdown of the capture activity. This is not available for transactions that are in pending state."
       },
       "InlineResponse4001" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error400"
+          "$ref" : "#/components/schemas/error_400"
         }, {
-          "$ref" : "#/components/schemas/AuthorizationsReauthorize400"
+          "$ref" : "#/components/schemas/authorizations.reauthorize-400"
         } ]
+      },
+      "403" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/403Details"
+            }
+          }
+        }
+      },
+      "404" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/404Details"
+            }
+          }
+        }
       },
       "InlineResponse4002" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error400"
+          "$ref" : "#/components/schemas/error_400"
         }, {
-          "$ref" : "#/components/schemas/CapturesRefund400"
+          "$ref" : "#/components/schemas/captures.refund-400"
         } ]
       },
       "TRANSACTIONREFUSED" : {
@@ -1098,24 +1283,15 @@
           }
         }
       },
-      "CaptureStatus" : {
-        "title" : "Capture Status",
-        "type" : "object",
+      "409" : {
         "properties" : {
-          "status_details" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/CaptureStatusDetails"
-            } ],
-            "x-ballerina-name" : "statusDetails"
-          },
-          "status" : {
-            "type" : "string",
-            "description" : "The status of the captured payment",
-            "readOnly" : true,
-            "enum" : [ "COMPLETED", "DECLINED", "PARTIALLY_REFUNDED", "PENDING", "REFUNDED", "FAILED" ]
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/409Details"
+            }
           }
-        },
-        "description" : "The status of a captured payment"
+        }
       },
       "MAXNUMBEROFREFUNDSEXCEEDED" : {
         "title" : "MAX_NUMBER_OF_REFUNDS_EXCEEDED",
@@ -1130,6 +1306,18 @@
           }
         }
       },
+      "refund" : {
+        "title" : "Refund",
+        "type" : "object",
+        "description" : "The refund information.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/refund_status"
+        }, {
+          "$ref" : "#/components/schemas/RefundAllOf2"
+        }, {
+          "$ref" : "#/components/schemas/activity_timestamps"
+        } ]
+      },
       "PREVIOUSREQUESTINPROGRESS" : {
         "title" : "PREVIOUS_REQUEST_IN_PROGRESS",
         "properties" : {
@@ -1142,89 +1330,6 @@
             "enum" : [ "A previous request on this resource is currently in progress. Please wait for sometime and try again. It is best to space out the initial and the subsequent request(s) to avoid receiving this error." ]
           }
         }
-      },
-      "Error404" : {
-        "title" : "Not found Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "RESOURCE_NOT_FOUND" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "The specified resource does not exist." ]
-          }
-        },
-        "description" : "The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available"
-      },
-      "SupplementaryData" : {
-        "title" : "Supplementary Data",
-        "type" : "object",
-        "properties" : {
-          "related_ids" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/RelatedIds"
-            } ],
-            "x-ballerina-name" : "relatedIds"
-          }
-        },
-        "description" : "The supplementary data"
-      },
-      "Error409" : {
-        "title" : "Resource Conflict Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "RESOURCE_CONFLICT" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "The server has detected a conflict while processing this request." ]
-          }
-        },
-        "description" : "The server has detected a conflict while processing this request"
       },
       "PAYERCANNOTPAY" : {
         "title" : "PAYER_CANNOT_PAY",
@@ -1239,62 +1344,25 @@
           }
         }
       },
-      "ReauthorizeRequest" : {
-        "title" : "Reauthorize Request",
-        "type" : "object",
-        "properties" : {
-          "amount" : {
-            "$ref" : "#/components/schemas/Money"
-          }
-        },
-        "description" : "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.<br/><br/>If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.<br/><br/>A reauthorized payment itself has a new honor period of three days.<br/><br/>You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.<br/><br/>Supports only the `amount` request parameter.<blockquote><strong>Note:</strong> This request is currently not supported for Partner use cases.</blockquote>"
-      },
       "InlineResponse401" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error401"
+          "$ref" : "#/components/schemas/error_401"
         }, {
-          "$ref" : "#/components/schemas/Unauthorized"
+          "$ref" : "#/components/schemas/401"
         } ]
       },
       "InlineResponse400" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error400"
+          "$ref" : "#/components/schemas/error_400"
         }, {
-          "$ref" : "#/components/schemas/BadRequest"
+          "$ref" : "#/components/schemas/400"
         } ]
-      },
-      "ErrorDetails" : {
-        "title" : "Error Details",
-        "required" : [ "issue" ],
-        "type" : "object",
-        "properties" : {
-          "field" : {
-            "type" : "string",
-            "description" : "The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors"
-          },
-          "issue" : {
-            "type" : "string",
-            "description" : "The unique, fine-grained application-level error code"
-          },
-          "description" : {
-            "type" : "string",
-            "description" : "The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value"
-          },
-          "location" : {
-            "$ref" : "#/components/schemas/ErrorLocation"
-          },
-          "value" : {
-            "type" : "string",
-            "description" : "The value of the field that caused the error"
-          }
-        },
-        "description" : "The error details. Required for client-side `4XX` errors"
       },
       "InlineResponse403" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error403"
+          "$ref" : "#/components/schemas/error_403"
         }, {
-          "$ref" : "#/components/schemas/Forbidden"
+          "$ref" : "#/components/schemas/403"
         } ]
       },
       "INVALIDACCOUNTSTATUS" : {
@@ -1310,23 +1378,18 @@
           }
         }
       },
+      "currency_code" : {
+        "maxLength" : 3,
+        "minLength" : 3,
+        "type" : "string",
+        "description" : "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
+        "format" : "ppaas_common_currency_code_v2"
+      },
       "InlineResponse404" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error404"
+          "$ref" : "#/components/schemas/error_404"
         }, {
-          "$ref" : "#/components/schemas/NotFoundgi"
-        } ]
-      },
-      "Authorization" : {
-        "title" : "Authorization",
-        "type" : "object",
-        "description" : "The authorized payment transaction",
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/AuthorizationStatus"
-        }, {
-          "$ref" : "#/components/schemas/AuthorizationAllOf2"
-        }, {
-          "$ref" : "#/components/schemas/ActivityTimestamps"
+          "$ref" : "#/components/schemas/404"
         } ]
       },
       "AUTHORIZATIONALREADYCAPTURED1" : {
@@ -1368,59 +1431,32 @@
           }
         }
       },
-      "SellerReceivableBreakdown" : {
-        "title" : "Seller Receivable Breakdown",
-        "required" : [ "gross_amount" ],
+      "error_details" : {
+        "title" : "Error Details",
+        "required" : [ "issue" ],
         "type" : "object",
         "properties" : {
-          "platform_fees" : {
-            "maxItems" : 1,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment",
-            "items" : {
-              "$ref" : "#/components/schemas/PlatformFee"
-            },
-            "x-ballerina-name" : "platformFees"
+          "field" : {
+            "type" : "string",
+            "description" : "The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors."
           },
-          "exchange_rate" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/ExchangeRate"
-            } ],
-            "x-ballerina-name" : "exchangeRate"
+          "value" : {
+            "type" : "string",
+            "description" : "The value of the field that caused the error."
           },
-          "paypal_fee" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "paypalFee"
+          "location" : {
+            "$ref" : "#/components/schemas/error_location"
           },
-          "gross_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "grossAmount"
+          "issue" : {
+            "type" : "string",
+            "description" : "The unique, fine-grained application-level error code."
           },
-          "paypal_fee_in_receivable_currency" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "paypalFeeInReceivableCurrency"
-          },
-          "net_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "netAmount"
-          },
-          "receivable_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "receivableAmount"
+          "description" : {
+            "type" : "string",
+            "description" : "The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value."
           }
         },
-        "description" : "The detailed breakdown of the capture activity. This is not available for transactions that are in pending state"
+        "description" : "The error details. Required for client-side `4XX` errors."
       },
       "PAYEEACCOUNTLOCKEDORCLOSED" : {
         "title" : "PAYEE_ACCOUNT_LOCKED_OR_CLOSED",
@@ -1487,6 +1523,16 @@
           }
         }
       },
+      "authorizations.void-422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsvoid422Details"
+            }
+          }
+        }
+      },
       "DECIMALSNOTSUPPORTED" : {
         "title" : "DECIMALS_NOT_SUPPORTED",
         "properties" : {
@@ -1500,6 +1546,43 @@
           }
         }
       },
+      "capture_request" : {
+        "title" : "Capture Request",
+        "type" : "object",
+        "description" : "Captures either a portion or the full authorized amount of an authorized payment.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/supplementary_purchase_data"
+        }, {
+          "properties" : {
+            "amount" : {
+              "$ref" : "#/components/schemas/money"
+            },
+            "invoice_id" : {
+              "maxLength" : 127,
+              "type" : "string",
+              "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives."
+            },
+            "final_capture" : {
+              "type" : "boolean",
+              "description" : "Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization.",
+              "default" : false
+            },
+            "payment_instruction" : {
+              "$ref" : "#/components/schemas/payment_instruction"
+            },
+            "note_to_payer" : {
+              "maxLength" : 255,
+              "type" : "string",
+              "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives."
+            },
+            "soft_descriptor" : {
+              "maxLength" : 22,
+              "type" : "string",
+              "description" : "The payment descriptor on the payer's account statement."
+            }
+          }
+        } ]
+      },
       "MISSINGREQUIREDPARAMETER2" : {
         "title" : "MISSING_REQUIRED_PARAMETER",
         "properties" : {
@@ -1512,75 +1595,13 @@
           }
         }
       },
-      "Error400" : {
-        "title" : "Bad Request Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "INVALID_REQUEST" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "Request is not well-formed, syntactically incorrect, or violates schema." ]
-          }
-        },
-        "description" : "Request is not well-formed, syntactically incorrect, or violates schema"
-      },
-      "Error401" : {
-        "title" : "Unauthorized Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "AUTHENTICATION_FAILURE" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "Authentication failed due to missing authorization header, or invalid authentication credentials." ]
-          }
-        },
-        "description" : "Authentication failed due to missing Authorization header, or invalid authentication credentials"
+      "email" : {
+        "maxLength" : 254,
+        "minLength" : 3,
+        "pattern" : "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+        "type" : "string",
+        "description" : "The internationalized email address.<blockquote><strong>Note:</strong> Up to 64 characters are allowed before and 255 characters are allowed after the <code>@</code> sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted <code>@</code> sign exists.</blockquote>",
+        "format" : "merchant_common_email_address_v2"
       },
       "PAYERCANNOTPAY1" : {
         "title" : "PAYER_CANNOT_PAY",
@@ -1594,76 +1615,6 @@
             "enum" : [ "Payer cannot pay for this transaction. Please contact the payer to find other ways to pay for this transaction." ]
           }
         }
-      },
-      "Error403" : {
-        "title" : "Not Authorized Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "NOT_AUTHORIZED" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "Authorization failed due to insufficient permissions." ]
-          }
-        },
-        "description" : "The client is not authorized to access this resource, although it may have valid credentials. "
-      },
-      "Error415" : {
-        "title" : "Unsupported Media Type Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "UNSUPPORTED_MEDIA_TYPE" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "The server does not support the request payload's media type." ]
-          }
-        },
-        "description" : "The server does not support the request payload's media type"
       },
       "PAYEEACCOUNTLOCKEDORCLOSED1" : {
         "title" : "PAYEE_ACCOUNT_LOCKED_OR_CLOSED",
@@ -1730,16 +1681,6 @@
           }
         }
       },
-      "AuthorizationsVoid422" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Authorizationsvoid422Details"
-            }
-          }
-        }
-      },
       "404Details" : {
         "anyOf" : [ {
           "$ref" : "#/components/schemas/INVALIDRESOURCEID"
@@ -1767,6 +1708,16 @@
           "description" : {
             "type" : "string",
             "enum" : [ "The payer account cannot be used for this transaction." ]
+          }
+        }
+      },
+      "captures.refund-422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Capturesrefund422Details"
+            }
           }
         }
       },
@@ -1822,82 +1773,41 @@
           }
         }
       },
-      "InlineResponse409" : {
+      "capture-2" : {
+        "title" : "Capture",
+        "type" : "object",
+        "description" : "A captured payment.",
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error409"
+          "$ref" : "#/components/schemas/capture"
         }, {
-          "$ref" : "#/components/schemas/Conflict"
+          "$ref" : "#/components/schemas/Capture2AllOf2"
         } ]
       },
-      "CaptureRequestAllOf2" : {
+      "InlineResponse409" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/error_409"
+        }, {
+          "$ref" : "#/components/schemas/409"
+        } ]
+      },
+      "account_id" : {
+        "title" : "PayPal Account Identifier",
+        "maxLength" : 13,
+        "minLength" : 13,
+        "pattern" : "^[2-9A-HJ-NP-Z]{13}$",
+        "type" : "string",
+        "description" : "The account identifier for a PayPal account.",
+        "format" : "ppaas_payer_id_v3"
+      },
+      "422" : {
         "properties" : {
-          "amount" : {
-            "$ref" : "#/components/schemas/Money"
-          },
-          "invoice_id" : {
-            "maxLength" : 127,
-            "type" : "string",
-            "description" : "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives."
-          },
-          "final_capture" : {
-            "type" : "boolean",
-            "description" : "Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization.",
-            "default" : false
-          },
-          "payment_instruction" : {
-            "$ref" : "#/components/schemas/PaymentInstruction"
-          },
-          "note_to_payer" : {
-            "maxLength" : 255,
-            "type" : "string",
-            "description" : "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives."
-          },
-          "soft_descriptor" : {
-            "maxLength" : 22,
-            "type" : "string",
-            "description" : "The payment descriptor on the payer's account statement."
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/422Details"
+            }
           }
         }
-      },
-      "RefundRequest" : {
-        "title" : "Refund Request",
-        "type" : "object",
-        "properties" : {
-          "amount" : {
-            "$ref" : "#/components/schemas/Money"
-          },
-          "custom_id" : {
-            "maxLength" : 127,
-            "minLength" : 1,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode",
-            "x-ballerina-name" : "customId"
-          },
-          "invoice_id" : {
-            "maxLength" : 127,
-            "minLength" : 1,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode",
-            "x-ballerina-name" : "invoiceId"
-          },
-          "note_to_payer" : {
-            "maxLength" : 255,
-            "minLength" : 1,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode",
-            "x-ballerina-name" : "noteToPayer"
-          },
-          "payment_instruction" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/PaymentInstruction2"
-            } ],
-            "x-ballerina-name" : "paymentInstruction"
-          }
-        },
-        "description" : "Refunds a captured payment, by ID. For a full refund, include an empty request body. For a partial refund, include an <code>amount</code> object in the request body"
       },
       "INVALIDSTRINGMAXLENGTH" : {
         "title" : "INVALID_STRING_MAX_LENGTH",
@@ -1964,22 +1874,18 @@
           }
         }
       },
-      "PaymentInstruction2" : {
-        "title" : "Payment Instruction",
+      "payee_base" : {
+        "title" : "Merchant Base",
         "type" : "object",
         "properties" : {
-          "platform_fees" : {
-            "maxItems" : 1,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "Specifies the amount that the API caller will contribute to the refund being processed. The amount needs to be lower than platform_fees amount originally captured or the amount that is remaining if multiple refunds have been processed. This field is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability",
-            "items" : {
-              "$ref" : "#/components/schemas/PlatformFee"
-            },
-            "x-ballerina-name" : "platformFees"
+          "email_address" : {
+            "$ref" : "#/components/schemas/email"
+          },
+          "merchant_id" : {
+            "$ref" : "#/components/schemas/account_id"
           }
         },
-        "description" : "Any additional payments instructions during refund payment processing. This object is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability"
+        "description" : "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee."
       },
       "TRANSACTIONDISPUTED" : {
         "title" : "TRANSACTION_DISPUTED",
@@ -2020,23 +1926,6 @@
           }
         }
       },
-      "Email" : {
-        "maxLength" : 254,
-        "minLength" : 3,
-        "pattern" : "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
-        "type" : "string",
-        "description" : "The internationalized email address.<blockquote><strong>Note:</strong> Up to 64 characters are allowed before and 255 characters are allowed after the <code>@</code> sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted <code>@</code> sign exists.</blockquote>",
-        "format" : "merchant_common_email_address_v2"
-      },
-      "AccountId" : {
-        "title" : "PayPal Account Identifier",
-        "maxLength" : 13,
-        "minLength" : 13,
-        "pattern" : "^[2-9A-HJ-NP-Z]{13}$",
-        "type" : "string",
-        "description" : "The account identifier for a PayPal account",
-        "format" : "ppaas_payer_id_v3"
-      },
       "REAUTHORIZATIONNOTSUPPORTED" : {
         "title" : "REAUTHORIZATION_NOT_SUPPORTED",
         "properties" : {
@@ -2050,6 +1939,22 @@
           }
         }
       },
+      "payment_instruction-2" : {
+        "title" : "Payment Instruction",
+        "type" : "object",
+        "properties" : {
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "Specifies the amount that the API caller will contribute to the refund being processed. The amount needs to be lower than platform_fees amount originally captured or the amount that is remaining if multiple refunds have been processed. This field is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability.",
+            "items" : {
+              "$ref" : "#/components/schemas/platform_fee"
+            }
+          }
+        },
+        "description" : "Any additional payments instructions during refund payment processing. This object is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability."
+      },
       "AuthorizationAllOf2" : {
         "properties" : {
           "id" : {
@@ -2058,7 +1963,7 @@
             "readOnly" : true
           },
           "amount" : {
-            "$ref" : "#/components/schemas/Money"
+            "$ref" : "#/components/schemas/money"
           },
           "invoice_id" : {
             "type" : "string",
@@ -2071,20 +1976,20 @@
             "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports."
           },
           "network_transaction_reference" : {
-            "$ref" : "#/components/schemas/NetworkTransactionReference"
+            "$ref" : "#/components/schemas/network_transaction_reference"
           },
           "seller_protection" : {
-            "$ref" : "#/components/schemas/SellerProtection"
+            "$ref" : "#/components/schemas/seller_protection"
           },
           "expiration_time" : {
-            "$ref" : "#/components/schemas/DateTime"
+            "$ref" : "#/components/schemas/date_time"
           },
           "links" : {
             "type" : "array",
             "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
             "readOnly" : true,
             "items" : {
-              "$ref" : "#/components/schemas/LinkDescription"
+              "$ref" : "#/components/schemas/link_description"
             }
           }
         }
@@ -2102,12 +2007,72 @@
           }
         }
       },
+      "error_location" : {
+        "type" : "string",
+        "description" : "The location of the field that caused the error. Value is `body`, `path`, or `query`.",
+        "default" : "body",
+        "enum" : [ "body", "path", "query" ]
+      },
       "InlineResponse422" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error422"
+          "$ref" : "#/components/schemas/error_422"
         }, {
-          "$ref" : "#/components/schemas/UnprocessableContent"
+          "$ref" : "#/components/schemas/422"
         } ]
+      },
+      "link_description" : {
+        "title" : "Link Description",
+        "required" : [ "href", "rel" ],
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call."
+          },
+          "rel" : {
+            "type" : "string",
+            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)."
+          },
+          "method" : {
+            "type" : "string",
+            "description" : "The HTTP method required to make the related call.",
+            "enum" : [ "GET", "POST", "PUT", "DELETE", "HEAD", "CONNECT", "OPTIONS", "PATCH" ]
+          }
+        },
+        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information."
+      },
+      "payment_instruction" : {
+        "title" : "Payment Instruction",
+        "type" : "object",
+        "properties" : {
+          "platform_fees" : {
+            "maxItems" : 1,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability.",
+            "items" : {
+              "$ref" : "#/components/schemas/platform_fee"
+            }
+          },
+          "disbursement_mode" : {
+            "$ref" : "#/components/schemas/disbursement_mode"
+          },
+          "payee_pricing_tier_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error."
+          },
+          "payee_receivable_fx_rate_id" : {
+            "maxLength" : 4000,
+            "minLength" : 1,
+            "pattern" : "^.*$",
+            "type" : "string",
+            "description" : "FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account."
+          }
+        },
+        "description" : "Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order."
       },
       "AUTHORIZATIONALREADYCAPTURED" : {
         "title" : "AUTHORIZATION_ALREADY_CAPTURED",
@@ -2122,24 +2087,21 @@
           }
         }
       },
-      "AuthorizationStatus" : {
-        "title" : "Authorization Status",
+      "net_amount_breakdown_item" : {
+        "title" : "Net Amount Breakdown Item",
         "type" : "object",
         "properties" : {
-          "status_details" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/AuthorizationStatusDetails"
-            } ],
-            "x-ballerina-name" : "statusDetails"
+          "payable_amount" : {
+            "$ref" : "#/components/schemas/money"
           },
-          "status" : {
-            "type" : "string",
-            "description" : "The status for the authorized payment",
-            "readOnly" : true,
-            "enum" : [ "CREATED", "CAPTURED", "DENIED", "PARTIALLY_CAPTURED", "VOIDED", "PENDING" ]
+          "converted_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "exchange_rate" : {
+            "$ref" : "#/components/schemas/exchange_rate"
           }
         },
-        "description" : "The status fields for an authorized payment"
+        "description" : "The net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the merchant holds their funds."
       },
       "PAYEEACCOUNTRESTRICTED" : {
         "title" : "PAYEE_ACCOUNT_RESTRICTED",
@@ -2154,42 +2116,72 @@
           }
         }
       },
-      "CaptureStatusDetails" : {
-        "title" : "Capture Status Details",
+      "error_default" : {
+        "description" : "The default error response.",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/error_400"
+        }, {
+          "$ref" : "#/components/schemas/error_401"
+        }, {
+          "$ref" : "#/components/schemas/error_403"
+        }, {
+          "$ref" : "#/components/schemas/error_404"
+        }, {
+          "$ref" : "#/components/schemas/error_409"
+        }, {
+          "$ref" : "#/components/schemas/error_415"
+        }, {
+          "$ref" : "#/components/schemas/error_422"
+        }, {
+          "$ref" : "#/components/schemas/error_500"
+        }, {
+          "$ref" : "#/components/schemas/error_503"
+        } ]
+      },
+      "date_time" : {
+        "maxLength" : 64,
+        "minLength" : 20,
+        "pattern" : "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+        "type" : "string",
+        "description" : "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.<blockquote><strong>Note:</strong> The regular expression provides guidance but does not reject all invalid dates.</blockquote>",
+        "format" : "ppaas_date_time_v3"
+      },
+      "error_500" : {
+        "title" : "Internal Server Error",
         "type" : "object",
         "properties" : {
-          "reason" : {
-            "maxLength" : 64,
-            "minLength" : 1,
-            "pattern" : "^[A-Z_]+$",
+          "name" : {
             "type" : "string",
-            "description" : "The reason why the captured payment status is `PENDING` or `DENIED`",
-            "enum" : [ "BUYER_COMPLAINT", "CHARGEBACK", "ECHECK", "INTERNATIONAL_WITHDRAWAL", "OTHER", "PENDING_REVIEW", "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION", "REFUNDED", "TRANSACTION_APPROVED_AWAITING_FUNDING", "UNILATERAL", "VERIFICATION_REQUIRED" ]
+            "enum" : [ "INTERNAL_SERVER_ERROR" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "An internal server error occurred." ]
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
           }
         },
-        "description" : "The details of the captured payment status"
-      },
-      "ErrorDefault" : {
-        "description" : "The default error response",
-        "oneOf" : [ {
-          "$ref" : "#/components/schemas/Error400"
-        }, {
-          "$ref" : "#/components/schemas/Error401"
-        }, {
-          "$ref" : "#/components/schemas/Error403"
-        }, {
-          "$ref" : "#/components/schemas/Error404"
-        }, {
-          "$ref" : "#/components/schemas/Error409"
-        }, {
-          "$ref" : "#/components/schemas/Error415"
-        }, {
-          "$ref" : "#/components/schemas/Error422"
-        }, {
-          "$ref" : "#/components/schemas/Error500"
-        }, {
-          "$ref" : "#/components/schemas/Error503"
-        } ]
+        "description" : "This is either a system or application error, and generally indicates that although the client appeared to provide a correct request, something unexpected has gone wrong on the server.",
+        "example" : {
+          "name" : "INTERNAL_SERVER_ERROR",
+          "message" : "An internal server error occurred.",
+          "debug_id" : "90957fca61718",
+          "links" : [ {
+            "href" : "https://developer.paypal.com/api/orders/v2/#error-INTERNAL_SERVER_ERROR",
+            "rel" : "information_link"
+          } ]
+        }
       },
       "CANNOTBENEGATIVE" : {
         "title" : "CANNOT_BE_NEGATIVE",
@@ -2202,25 +2194,6 @@
             "type" : "string"
           }
         }
-      },
-      "PayeeBase" : {
-        "title" : "Merchant Base",
-        "type" : "object",
-        "properties" : {
-          "email_address" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Email"
-            } ],
-            "x-ballerina-name" : "emailAddress"
-          },
-          "merchant_id" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/AccountId"
-            } ],
-            "x-ballerina-name" : "merchantId"
-          }
-        },
-        "description" : "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee"
       },
       "INVALIDSTRINGLENGTH" : {
         "title" : "INVALID_STRING_LENGTH",
@@ -2248,50 +2221,15 @@
           }
         }
       },
-      "Error422" : {
-        "title" : "Unprocessable Entity Error",
-        "type" : "object",
-        "properties" : {
-          "debug_id" : {
-            "type" : "string",
-            "description" : "The PayPal internal ID. Used for correlation purposes",
-            "x-ballerina-name" : "debugId"
-          },
-          "name" : {
-            "type" : "string",
-            "enum" : [ "UNPROCESSABLE_ENTITY" ]
-          },
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorDetails"
-            }
-          },
-          "links" : {
-            "maxItems" : 10000,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS)",
-            "items" : {
-              "$ref" : "#/components/schemas/ErrorLinkDescription"
-            }
-          },
-          "message" : {
-            "type" : "string",
-            "enum" : [ "The requested action could not be performed, semantically incorrect, or failed business validation." ]
-          }
-        },
-        "description" : "The requested action cannot be performed and may require interaction with APIs or processes outside of the current request. This is distinct from a 500 response in that there are no systemic problems limiting the API from performing the request"
-      },
-      "CapturesRefund422" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Capturesrefund422Details"
-            }
-          }
-        }
+      "disbursement_mode" : {
+        "title" : "Disbursement Mode",
+        "maxLength" : 16,
+        "minLength" : 1,
+        "pattern" : "^[A-Z_]+$",
+        "type" : "string",
+        "description" : "The funds that are held on behalf of the merchant.",
+        "default" : "INSTANT",
+        "enum" : [ "INSTANT", "DELAYED" ]
       },
       "INVALIDSTRINGLENGTH2" : {
         "title" : "INVALID_STRING_LENGTH",
@@ -2304,6 +2242,29 @@
             "type" : "string"
           }
         }
+      },
+      "seller_protection" : {
+        "title" : "Seller Protection",
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection).",
+            "readOnly" : true,
+            "enum" : [ "ELIGIBLE", "PARTIALLY_ELIGIBLE", "NOT_ELIGIBLE" ]
+          },
+          "dispute_categories" : {
+            "type" : "array",
+            "description" : "An array of conditions that are covered for the transaction.",
+            "readOnly" : true,
+            "items" : {
+              "type" : "string",
+              "description" : "The condition that is covered for the transaction.",
+              "enum" : [ "ITEM_NOT_RECEIVED", "UNAUTHORIZED_TRANSACTION" ]
+            }
+          }
+        },
+        "description" : "The level of protection offered as defined by [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection)."
       },
       "INVALIDSTRINGMAXLENGTH1" : {
         "title" : "INVALID_STRING_MAX_LENGTH",
@@ -2318,21 +2279,6 @@
           }
         }
       },
-      "AuthorizationStatusDetails" : {
-        "title" : "Auhorization Status Details",
-        "type" : "object",
-        "properties" : {
-          "reason" : {
-            "maxLength" : 24,
-            "minLength" : 1,
-            "pattern" : "^[A-Z_]+$",
-            "type" : "string",
-            "description" : "The reason why the authorized status is `PENDING`",
-            "enum" : [ "PENDING_REVIEW" ]
-          }
-        },
-        "description" : "The details of the authorized payment status"
-      },
       "MISSINGREQUIREDPARAMETER" : {
         "title" : "MISSING_REQUIRED_PARAMETER",
         "properties" : {
@@ -2343,16 +2289,6 @@
           "description" : {
             "type" : "string",
             "enum" : [ "A required field / parameter is missing." ]
-          }
-        }
-      },
-      "AuthorizationsReauthorize422" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Authorizationsreauthorize422Details"
-            }
           }
         }
       },
@@ -2379,6 +2315,28 @@
           "$ref" : "#/components/schemas/INVALIDACCOUNTSTATUS"
         } ]
       },
+      "authorizations.reauthorize-422" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsreauthorize422Details"
+            }
+          }
+        }
+      },
+      "capture" : {
+        "title" : "Capture",
+        "type" : "object",
+        "description" : "A captured payment.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/capture_status"
+        }, {
+          "$ref" : "#/components/schemas/CaptureAllOf2"
+        }, {
+          "$ref" : "#/components/schemas/activity_timestamps"
+        } ]
+      },
       "CANNOTBEVOIDED" : {
         "title" : "CANNOT_BE_VOIDED",
         "properties" : {
@@ -2392,6 +2350,16 @@
           }
         }
       },
+      "authorization-2" : {
+        "title" : "Authorization",
+        "type" : "object",
+        "description" : "The authorized payment transaction.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/authorization"
+        }, {
+          "$ref" : "#/components/schemas/Authorization2AllOf2"
+        } ]
+      },
       "AUTHCAPTURECURRENCYMISMATCH" : {
         "title" : "AUTH_CAPTURE_CURRENCY_MISMATCH",
         "properties" : {
@@ -2404,6 +2372,21 @@
             "enum" : [ "Currency of capture must be the same as currency of authorization." ]
           }
         }
+      },
+      "capture_status_details" : {
+        "title" : "Capture Status Details",
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "pattern" : "^[A-Z_]+$",
+            "type" : "string",
+            "description" : "The reason why the captured payment status is `PENDING` or `DENIED`.",
+            "enum" : [ "BUYER_COMPLAINT", "CHARGEBACK", "ECHECK", "INTERNATIONAL_WITHDRAWAL", "OTHER", "PENDING_REVIEW", "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION", "REFUNDED", "TRANSACTION_APPROVED_AWAITING_FUNDING", "UNILATERAL", "VERIFICATION_REQUIRED" ]
+          }
+        },
+        "description" : "The details of the captured payment status."
       },
       "INVALIDPARAMETERVALUE" : {
         "title" : "INVALID_PARAMETER_VALUE",
@@ -2435,6 +2418,16 @@
         "anyOf" : [ {
           "$ref" : "#/components/schemas/PREVIOUSREQUESTINPROGRESS"
         } ]
+      },
+      "supplementary_data" : {
+        "title" : "Supplementary Data",
+        "type" : "object",
+        "properties" : {
+          "related_ids" : {
+            "$ref" : "#/components/schemas/related_ids"
+          }
+        },
+        "description" : "The supplementary data."
       },
       "Authorizationsreauthorize422Details" : {
         "anyOf" : [ {
@@ -2517,24 +2510,18 @@
           }
         }
       },
-      "ActivityTimestamps" : {
+      "activity_timestamps" : {
         "title" : "Transaction Date and Time Stamps",
         "type" : "object",
         "properties" : {
-          "update_time" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/DateTime"
-            } ],
-            "x-ballerina-name" : "updateTime"
-          },
           "create_time" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/DateTime"
-            } ],
-            "x-ballerina-name" : "createTime"
+            "$ref" : "#/components/schemas/date_time"
+          },
+          "update_time" : {
+            "$ref" : "#/components/schemas/date_time"
           }
         },
-        "description" : "The date and time stamps that are common to authorized payment, captured payment, and refund transactions"
+        "description" : "The date and time stamps that are common to authorized payment, captured payment, and refund transactions."
       },
       "PREVIOUSLYCAPTURED" : {
         "title" : "PREVIOUSLY_CAPTURED",
@@ -2570,7 +2557,7 @@
             "readOnly" : true
           },
           "amount" : {
-            "$ref" : "#/components/schemas/Money"
+            "$ref" : "#/components/schemas/money"
           },
           "invoice_id" : {
             "type" : "string",
@@ -2583,10 +2570,10 @@
             "description" : "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports."
           },
           "network_transaction_reference" : {
-            "$ref" : "#/components/schemas/NetworkTransactionReference"
+            "$ref" : "#/components/schemas/network_transaction_reference"
           },
           "seller_protection" : {
-            "$ref" : "#/components/schemas/SellerProtection"
+            "$ref" : "#/components/schemas/seller_protection"
           },
           "final_capture" : {
             "type" : "boolean",
@@ -2595,21 +2582,21 @@
             "default" : false
           },
           "seller_receivable_breakdown" : {
-            "$ref" : "#/components/schemas/SellerReceivableBreakdown"
+            "$ref" : "#/components/schemas/seller_receivable_breakdown"
           },
           "disbursement_mode" : {
-            "$ref" : "#/components/schemas/DisbursementMode"
+            "$ref" : "#/components/schemas/disbursement_mode"
           },
           "links" : {
             "type" : "array",
             "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
             "readOnly" : true,
             "items" : {
-              "$ref" : "#/components/schemas/LinkDescription"
+              "$ref" : "#/components/schemas/link_description"
             }
           },
           "processor_response" : {
-            "$ref" : "#/components/schemas/ProcessorResponse"
+            "$ref" : "#/components/schemas/processor_response"
           }
         }
       },
@@ -2621,149 +2608,6 @@
         }, {
           "$ref" : "#/components/schemas/INVALIDSTRINGLENGTH2"
         } ]
-      },
-      "ErrorLinkDescription" : {
-        "title" : "Link Description",
-        "required" : [ "href", "rel" ],
-        "type" : "object",
-        "properties" : {
-          "method" : {
-            "maxLength" : 6,
-            "minLength" : 3,
-            "pattern" : "^[A-Z]*$",
-            "type" : "string",
-            "description" : "The HTTP method required to make the related call",
-            "enum" : [ "GET", "POST", "PUT", "DELETE", "PATCH" ]
-          },
-          "rel" : {
-            "maxLength" : 100,
-            "minLength" : 0,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)"
-          },
-          "href" : {
-            "maxLength" : 20000,
-            "minLength" : 0,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call"
-          }
-        },
-        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information"
-      },
-      "ExchangeRate" : {
-        "title" : "Exchange Rate",
-        "type" : "object",
-        "properties" : {
-          "source_currency" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/CurrencyCode"
-            } ],
-            "x-ballerina-name" : "sourceCurrency"
-          },
-          "target_currency" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/CurrencyCode"
-            } ],
-            "x-ballerina-name" : "targetCurrency"
-          },
-          "value" : {
-            "type" : "string",
-            "description" : "The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point"
-          }
-        },
-        "description" : "The exchange rate that determines the amount to convert from one currency to another currency",
-        "readOnly" : true
-      },
-      "NetworkTransactionReference" : {
-        "title" : "Network Transaction Reference",
-        "required" : [ "id" ],
-        "type" : "object",
-        "properties" : {
-          "date" : {
-            "maxLength" : 4,
-            "minLength" : 4,
-            "pattern" : "^[0-9]+$",
-            "type" : "string",
-            "description" : "The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as \"BankNet reference date"
-          },
-          "acquirer_reference_number" : {
-            "maxLength" : 36,
-            "minLength" : 1,
-            "pattern" : "^[a-zA-Z0-9]+$",
-            "type" : "string",
-            "description" : "Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks",
-            "x-ballerina-name" : "acquirerReferenceNumber"
-          },
-          "id" : {
-            "maxLength" : 36,
-            "minLength" : 9,
-            "pattern" : "^[a-zA-Z0-9-]+$",
-            "type" : "string",
-            "description" : "Transaction reference id returned by the scheme. For Visa and Amex, this is the \"Tran id\" field in response. For MasterCard, this is the \"BankNet reference id\" field in response. For Discover, this is the \"NRID\" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -"
-          },
-          "network" : {
-            "$ref" : "#/components/schemas/CardBrand"
-          }
-        },
-        "description" : "Reference values used by the card network to identify a transaction"
-      },
-      "ProcessorResponse" : {
-        "title" : "Processor Response",
-        "type" : "object",
-        "properties" : {
-          "cvv_code" : {
-            "type" : "string",
-            "description" : "The card verification value code for for Visa, Discover, Mastercard, or American Express",
-            "readOnly" : true,
-            "enum" : [ "E", "I", "M", "N", "P", "S", "U", "X", "All others", "0", "1", "2", "3", "4" ],
-            "x-ballerina-name" : "cvvCode"
-          },
-          "response_code" : {
-            "type" : "string",
-            "description" : "Processor response code for the non-PayPal payment processor errors",
-            "readOnly" : true,
-            "enum" : [ "0000", "00N7", "0100", "0390", "0500", "0580", "0800", "0880", "0890", "0960", "0R00", "1000", "10BR", "1300", "1310", "1312", "1317", "1320", "1330", "1335", "1340", "1350", "1352", "1360", "1370", "1380", "1382", "1384", "1390", "1393", "5100", "5110", "5120", "5130", "5135", "5140", "5150", "5160", "5170", "5180", "5190", "5200", "5210", "5400", "5500", "5650", "5700", "5710", "5800", "5900", "5910", "5920", "5930", "5950", "6300", "7600", "7700", "7710", "7800", "7900", "8000", "8010", "8020", "8030", "8100", "8110", "8220", "9100", "9500", "9510", "9520", "9530", "9540", "9600", "PCNR", "PCVV", "PP06", "PPRN", "PPAD", "PPAB", "PPAE", "PPAG", "PPAI", "PPAR", "PPAU", "PPAV", "PPAX", "PPBG", "PPC2", "PPCE", "PPCO", "PPCR", "PPCT", "PPCU", "PPD3", "PPDC", "PPDI", "PPDV", "PPDT", "PPEF", "PPEL", "PPER", "PPEX", "PPFE", "PPFI", "PPFR", "PPFV", "PPGR", "PPH1", "PPIF", "PPII", "PPIM", "PPIT", "PPLR", "PPLS", "PPMB", "PPMC", "PPMD", "PPNC", "PPNL", "PPNM", "PPNT", "PPPH", "PPPI", "PPPM", "PPQC", "PPRE", "PPRF", "PPRR", "PPS0", "PPS1", "PPS2", "PPS3", "PPS4", "PPS5", "PPS6", "PPSC", "PPSD", "PPSE", "PPTE", "PPTF", "PPTI", "PPTR", "PPTT", "PPTV", "PPUA", "PPUC", "PPUE", "PPUI", "PPUP", "PPUR", "PPVC", "PPVE", "PPVT" ],
-            "x-ballerina-name" : "responseCode"
-          },
-          "payment_advice_code" : {
-            "type" : "string",
-            "description" : "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes",
-            "readOnly" : true,
-            "enum" : [ "01", "02", "03", "21" ],
-            "x-ballerina-name" : "paymentAdviceCode"
-          },
-          "avs_code" : {
-            "type" : "string",
-            "description" : "The address verification code for Visa, Discover, Mastercard, or American Express transactions",
-            "readOnly" : true,
-            "enum" : [ "A", "B", "C", "D", "E", "F", "G", "I", "M", "N", "P", "R", "S", "U", "W", "X", "Y", "Z", "Null", "0", "1", "2", "3", "4" ],
-            "x-ballerina-name" : "avsCode"
-          }
-        },
-        "description" : "The processor response information for payment requests, such as direct credit card transactions"
-      },
-      "LinkDescription" : {
-        "title" : "Link Description",
-        "required" : [ "href", "rel" ],
-        "type" : "object",
-        "properties" : {
-          "method" : {
-            "type" : "string",
-            "description" : "The HTTP method required to make the related call",
-            "enum" : [ "GET", "POST", "PUT", "DELETE", "HEAD", "CONNECT", "OPTIONS", "PATCH" ]
-          },
-          "rel" : {
-            "type" : "string",
-            "description" : "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml)"
-          },
-          "href" : {
-            "type" : "string",
-            "description" : "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call"
-          }
-        },
-        "description" : "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information"
       },
       "REFUNDCAPTURECURRENCYMISMATCH" : {
         "title" : "REFUND_CAPTURE_CURRENCY_MISMATCH",
@@ -2781,51 +2625,12 @@
       "Authorization2AllOf2" : {
         "properties" : {
           "supplementary_data" : {
-            "$ref" : "#/components/schemas/SupplementaryData"
+            "$ref" : "#/components/schemas/supplementary_data"
           },
           "payee" : {
-            "$ref" : "#/components/schemas/PayeeBase"
+            "$ref" : "#/components/schemas/payee_base"
           }
         }
-      },
-      "PaymentInstruction" : {
-        "title" : "Payment Instruction",
-        "type" : "object",
-        "properties" : {
-          "disbursement_mode" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/DisbursementMode"
-            } ],
-            "x-ballerina-name" : "disbursementMode"
-          },
-          "platform_fees" : {
-            "maxItems" : 1,
-            "minItems" : 0,
-            "type" : "array",
-            "description" : "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability",
-            "items" : {
-              "$ref" : "#/components/schemas/PlatformFee"
-            },
-            "x-ballerina-name" : "platformFees"
-          },
-          "payee_receivable_fx_rate_id" : {
-            "maxLength" : 4000,
-            "minLength" : 1,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account",
-            "x-ballerina-name" : "payeeReceivableFxRateId"
-          },
-          "payee_pricing_tier_id" : {
-            "maxLength" : 20,
-            "minLength" : 1,
-            "pattern" : "^.*$",
-            "type" : "string",
-            "description" : "This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error",
-            "x-ballerina-name" : "payeePricingTierId"
-          }
-        },
-        "description" : "Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order"
       },
       "AUTHCURRENCYMISMATCH" : {
         "title" : "AUTH_CURRENCY_MISMATCH",
@@ -2893,90 +2698,97 @@
           "$ref" : "#/components/schemas/PLATFORMFEENOTENABLED"
         } ]
       },
-      "UnprocessableContent" : {
+      "error_400" : {
+        "title" : "Bad Request Error",
+        "type" : "object",
         "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "INVALID_REQUEST" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Request is not well-formed, syntactically incorrect, or violates schema." ]
+          },
           "details" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/422Details"
+              "$ref" : "#/components/schemas/error_details"
+            }
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
             }
           }
-        }
-      },
-      "Money" : {
-        "title" : "Money",
-        "required" : [ "currency_code", "value" ],
-        "type" : "object",
-        "properties" : {
-          "value" : {
-            "maxLength" : 32,
-            "pattern" : "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
-            "type" : "string",
-            "description" : "The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/)"
-          },
-          "currency_code" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/CurrencyCode"
-            } ],
-            "x-ballerina-name" : "currencyCode"
-          }
         },
-        "description" : "The currency and amount for a financial transaction, such as a balance or payment due"
+        "description" : "Request is not well-formed, syntactically incorrect, or violates schema."
       },
-      "RelatedIds" : {
-        "title" : "Related Identifiers",
+      "error_401" : {
+        "title" : "Unauthorized Error",
         "type" : "object",
         "properties" : {
-          "authorization_id" : {
-            "maxLength" : 20,
-            "minLength" : 1,
-            "pattern" : "^[A-Z0-9]+$",
+          "name" : {
             "type" : "string",
-            "description" : "Authorization ID related to the resource",
-            "x-ballerina-name" : "authorizationId"
+            "enum" : [ "AUTHENTICATION_FAILURE" ]
           },
-          "capture_id" : {
-            "maxLength" : 20,
-            "minLength" : 1,
-            "pattern" : "^[A-Z0-9]+$",
+          "message" : {
             "type" : "string",
-            "description" : "Capture ID related to the resource",
-            "x-ballerina-name" : "captureId"
+            "enum" : [ "Authentication failed due to missing authorization header, or invalid authentication credentials." ]
           },
-          "order_id" : {
-            "maxLength" : 20,
-            "minLength" : 1,
-            "pattern" : "^[A-Z0-9]+$",
-            "type" : "string",
-            "description" : "Order ID related to the resource",
-            "x-ballerina-name" : "orderId"
-          }
-        },
-        "description" : "Identifiers related to a specific resource"
-      },
-      "SellerProtection" : {
-        "title" : "Seller Protection",
-        "type" : "object",
-        "properties" : {
-          "dispute_categories" : {
+          "details" : {
             "type" : "array",
-            "description" : "An array of conditions that are covered for the transaction",
-            "readOnly" : true,
             "items" : {
-              "type" : "string",
-              "description" : "The condition that is covered for the transaction.",
-              "enum" : [ "ITEM_NOT_RECEIVED", "UNAUTHORIZED_TRANSACTION" ]
-            },
-            "x-ballerina-name" : "disputeCategories"
+              "$ref" : "#/components/schemas/error_details"
+            }
           },
-          "status" : {
+          "debug_id" : {
             "type" : "string",
-            "description" : "Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection)",
-            "readOnly" : true,
-            "enum" : [ "ELIGIBLE", "PARTIALLY_ELIGIBLE", "NOT_ELIGIBLE" ]
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
           }
         },
-        "description" : "The level of protection offered as defined by [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection)"
+        "description" : "Authentication failed due to missing Authorization header, or invalid authentication credentials."
+      },
+      "card_brand" : {
+        "title" : "Card Brand",
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : "^[A-Z_]+$",
+        "type" : "string",
+        "description" : "The card network or brand. Applies to credit, debit, gift, and payment cards.",
+        "enum" : [ "VISA", "MASTERCARD", "DISCOVER", "AMEX", "SOLO", "JCB", "STAR", "DELTA", "SWITCH", "MAESTRO", "CB_NATIONALE", "CONFIGOGA", "CONFIDIS", "ELECTRON", "CETELEM", "CHINA_UNION_PAY" ]
+      },
+      "authorization_status_details" : {
+        "title" : "Auhorization Status Details",
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "maxLength" : 24,
+            "minLength" : 1,
+            "pattern" : "^[A-Z_]+$",
+            "type" : "string",
+            "description" : "The reason why the authorized status is `PENDING`.",
+            "enum" : [ "PENDING_REVIEW" ]
+          }
+        },
+        "description" : "The details of the authorized payment status."
       },
       "REFUNDTIMELIMITEXCEEDED" : {
         "title" : "REFUND_TIME_LIMIT_EXCEEDED",
@@ -2988,16 +2800,6 @@
           "description" : {
             "type" : "string",
             "enum" : [ "You are over the time limit to perform a refund on this capture" ]
-          }
-        }
-      },
-      "CapturesRefund400" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Capturesrefund400Details"
-            }
           }
         }
       },
@@ -3014,50 +2816,37 @@
           }
         }
       },
-      "Authorization2" : {
-        "title" : "Authorization",
-        "type" : "object",
-        "description" : "The authorized payment transaction",
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Authorization"
-        }, {
-          "$ref" : "#/components/schemas/Authorization2AllOf2"
-        } ]
-      },
-      "NetAmountBreakdownItem" : {
-        "title" : "Net Amount Breakdown Item",
+      "network_transaction_reference" : {
+        "title" : "Network Transaction Reference",
+        "required" : [ "id" ],
         "type" : "object",
         "properties" : {
-          "exchange_rate" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/ExchangeRate"
-            } ],
-            "x-ballerina-name" : "exchangeRate"
+          "id" : {
+            "maxLength" : 36,
+            "minLength" : 9,
+            "pattern" : "^[a-zA-Z0-9-]+$",
+            "type" : "string",
+            "description" : "Transaction reference id returned by the scheme. For Visa and Amex, this is the \"Tran id\" field in response. For MasterCard, this is the \"BankNet reference id\" field in response. For Discover, this is the \"NRID\" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -."
           },
-          "converted_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "convertedAmount"
+          "date" : {
+            "maxLength" : 4,
+            "minLength" : 4,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as \"BankNet reference date."
           },
-          "payable_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "payableAmount"
+          "network" : {
+            "$ref" : "#/components/schemas/card_brand"
+          },
+          "acquirer_reference_number" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9]+$",
+            "type" : "string",
+            "description" : "Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks."
           }
         },
-        "description" : "The net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the merchant holds their funds"
-      },
-      "AuthorizationsReauthorize400" : {
-        "properties" : {
-          "details" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Authorizationsreauthorize400Details"
-            }
-          }
-        }
+        "description" : "Reference values used by the card network to identify a transaction."
       },
       "DECIMALPRECISION" : {
         "title" : "DECIMAL_PRECISION",
@@ -3071,6 +2860,66 @@
             "enum" : [ "If the currency supports decimals, only two decimal place precision is supported." ]
           }
         }
+      },
+      "authorizations.reauthorize-400" : {
+        "properties" : {
+          "details" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Authorizationsreauthorize400Details"
+            }
+          }
+        }
+      },
+      "error_503" : {
+        "title" : "Service Unavailable Error",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "enum" : [ "SERVICE_UNAVAILABLE" ]
+          },
+          "message" : {
+            "type" : "string",
+            "enum" : [ "Service Unavailable." ]
+          },
+          "debug_id" : {
+            "type" : "string",
+            "description" : "The PayPal internal ID. Used for correlation purposes."
+          },
+          "links" : {
+            "maxItems" : 10000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS).",
+            "items" : {
+              "$ref" : "#/components/schemas/error_link_description"
+            }
+          }
+        },
+        "description" : "The server is temporarily unable to handle the request, for example, because of planned maintenance or downtime.",
+        "example" : {
+          "name" : "SERVICE_UNAVAILABLE",
+          "message" : "Service Unavailable.",
+          "debug_id" : "90957fca61718",
+          "information_link" : "https://developer.paypal.com/docs/api/orders/v2/#error-SERVICE_UNAVAILABLE"
+        }
+      },
+      "capture_status" : {
+        "title" : "Capture Status",
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the captured payment.",
+            "readOnly" : true,
+            "enum" : [ "COMPLETED", "DECLINED", "PARTIALLY_REFUNDED", "PENDING", "REFUNDED", "FAILED" ]
+          },
+          "status_details" : {
+            "$ref" : "#/components/schemas/capture_status_details"
+          }
+        },
+        "description" : "The status of a captured payment."
       },
       "DECIMALSNOTSUPPORTED2" : {
         "title" : "DECIMALS_NOT_SUPPORTED",
@@ -3096,6 +2945,20 @@
             "enum" : [ "Currency does not support decimals. Please refer to https://developer.paypal.com/docs/api/reference/currency-codes/ for more information." ]
           }
         }
+      },
+      "platform_fee" : {
+        "title" : "Platform Fee",
+        "required" : [ "amount" ],
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "payee" : {
+            "$ref" : "#/components/schemas/payee_base"
+          }
+        },
+        "description" : "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit."
       },
       "INVALIDCURRENCYCODE2" : {
         "title" : "INVALID_CURRENCY_CODE",
@@ -3135,82 +2998,77 @@
         "title" : "Merchant Payable Breakdown",
         "type" : "object",
         "properties" : {
+          "gross_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "paypal_fee" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "paypal_fee_in_receivable_currency" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "net_amount" : {
+            "$ref" : "#/components/schemas/money"
+          },
+          "net_amount_in_receivable_currency" : {
+            "$ref" : "#/components/schemas/money"
+          },
           "platform_fees" : {
             "maxItems" : 1,
             "minItems" : 0,
             "type" : "array",
-            "description" : "An array of platform or partner fees, commissions, or brokerage fees for the refund",
+            "description" : "An array of platform or partner fees, commissions, or brokerage fees for the refund.",
             "items" : {
-              "$ref" : "#/components/schemas/PlatformFee"
-            },
-            "x-ballerina-name" : "platformFees"
-          },
-          "net_amount_in_receivable_currency" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "netAmountInReceivableCurrency"
-          },
-          "total_refunded_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "totalRefundedAmount"
-          },
-          "paypal_fee" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "paypalFee"
-          },
-          "gross_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "grossAmount"
-          },
-          "paypal_fee_in_receivable_currency" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "paypalFeeInReceivableCurrency"
-          },
-          "net_amount" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/Money"
-            } ],
-            "x-ballerina-name" : "netAmount"
+              "$ref" : "#/components/schemas/platform_fee"
+            }
           },
           "net_amount_breakdown" : {
             "type" : "array",
-            "description" : "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds",
+            "description" : "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds.",
             "readOnly" : true,
             "items" : {
-              "$ref" : "#/components/schemas/NetAmountBreakdownItem"
-            },
-            "x-ballerina-name" : "netAmountBreakdown"
+              "$ref" : "#/components/schemas/net_amount_breakdown_item"
+            }
+          },
+          "total_refunded_amount" : {
+            "$ref" : "#/components/schemas/money"
           }
         },
-        "description" : "The breakdown of the refund",
+        "description" : "The breakdown of the refund.",
         "readOnly" : true
       },
-      "RefundStatusDetails" : {
-        "title" : "Refund Status Details",
+      "money" : {
+        "title" : "Money",
+        "required" : [ "currency_code", "value" ],
         "type" : "object",
         "properties" : {
-          "reason" : {
+          "currency_code" : {
+            "$ref" : "#/components/schemas/currency_code"
+          },
+          "value" : {
+            "maxLength" : 32,
+            "pattern" : "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
             "type" : "string",
-            "description" : "The reason why the refund has the `PENDING` or `FAILED` status",
-            "enum" : [ "ECHECK" ]
+            "description" : "The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/)."
           }
         },
-        "description" : "The details of the refund status"
+        "description" : "The currency and amount for a financial transaction, such as a balance or payment due."
+      },
+      "reauthorize_request" : {
+        "title" : "Reauthorize Request",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/money"
+          }
+        },
+        "description" : "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.<br/><br/>If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.<br/><br/>A reauthorized payment itself has a new honor period of three days.<br/><br/>You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.<br/><br/>Supports only the `amount` request parameter.<blockquote><strong>Note:</strong> This request is currently not supported for Partner use cases.</blockquote>"
       },
       "InlineResponse4221" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error422"
+          "$ref" : "#/components/schemas/error_422"
         }, {
-          "$ref" : "#/components/schemas/AuthorizationsReauthorize422"
+          "$ref" : "#/components/schemas/authorizations.reauthorize-422"
         } ]
       },
       "AUTHORIZATIONEXPIRED" : {
@@ -3226,6 +3084,34 @@
           }
         }
       },
+      "related_ids" : {
+        "title" : "Related Identifiers",
+        "type" : "object",
+        "properties" : {
+          "order_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Order ID related to the resource."
+          },
+          "authorization_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Authorization ID related to the resource."
+          },
+          "capture_id" : {
+            "maxLength" : 20,
+            "minLength" : 1,
+            "pattern" : "^[A-Z0-9]+$",
+            "type" : "string",
+            "description" : "Capture ID related to the resource."
+          }
+        },
+        "description" : "Identifiers related to a specific resource."
+      },
       "RefundAllOf2" : {
         "properties" : {
           "id" : {
@@ -3234,7 +3120,7 @@
             "readOnly" : true
           },
           "amount" : {
-            "$ref" : "#/components/schemas/Money"
+            "$ref" : "#/components/schemas/money"
           },
           "invoice_id" : {
             "type" : "string",
@@ -3264,64 +3150,61 @@
             "$ref" : "#/components/schemas/MerchantPayableBreakdown"
           },
           "payer" : {
-            "$ref" : "#/components/schemas/PayeeBase"
+            "$ref" : "#/components/schemas/payee_base"
           },
           "links" : {
             "type" : "array",
             "description" : "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
             "readOnly" : true,
             "items" : {
-              "$ref" : "#/components/schemas/LinkDescription"
+              "$ref" : "#/components/schemas/link_description"
             }
           }
         }
       },
-      "InlineResponse4222" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Error422"
-        }, {
-          "$ref" : "#/components/schemas/AuthorizationsVoid422"
-        } ]
-      },
-      "CaptureRequest" : {
-        "title" : "Capture Request",
-        "type" : "object",
-        "description" : "Captures either a portion or the full authorized amount of an authorized payment",
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/SupplementaryPurchaseData"
-        }, {
-          "$ref" : "#/components/schemas/CaptureRequestAllOf2"
-        } ]
-      },
-      "DisbursementMode" : {
-        "title" : "Disbursement Mode",
-        "maxLength" : 16,
-        "minLength" : 1,
-        "pattern" : "^[A-Z_]+$",
-        "type" : "string",
-        "description" : "The funds that are held on behalf of the merchant",
-        "default" : "INSTANT",
-        "enum" : [ "INSTANT", "DELAYED" ]
-      },
-      "PlatformFee" : {
-        "title" : "Platform Fee",
-        "required" : [ "amount" ],
+      "processor_response" : {
+        "title" : "Processor Response",
         "type" : "object",
         "properties" : {
-          "payee" : {
-            "$ref" : "#/components/schemas/PayeeBase"
+          "avs_code" : {
+            "type" : "string",
+            "description" : "The address verification code for Visa, Discover, Mastercard, or American Express transactions.",
+            "readOnly" : true,
+            "enum" : [ "A", "B", "C", "D", "E", "F", "G", "I", "M", "N", "P", "R", "S", "U", "W", "X", "Y", "Z", "Null", "0", "1", "2", "3", "4" ]
           },
-          "amount" : {
-            "$ref" : "#/components/schemas/Money"
+          "cvv_code" : {
+            "type" : "string",
+            "description" : "The card verification value code for for Visa, Discover, Mastercard, or American Express.",
+            "readOnly" : true,
+            "enum" : [ "E", "I", "M", "N", "P", "S", "U", "X", "All others", "0", "1", "2", "3", "4" ]
+          },
+          "response_code" : {
+            "type" : "string",
+            "description" : "Processor response code for the non-PayPal payment processor errors.",
+            "readOnly" : true,
+            "enum" : [ "0000", "00N7", "0100", "0390", "0500", "0580", "0800", "0880", "0890", "0960", "0R00", "1000", "10BR", "1300", "1310", "1312", "1317", "1320", "1330", "1335", "1340", "1350", "1352", "1360", "1370", "1380", "1382", "1384", "1390", "1393", "5100", "5110", "5120", "5130", "5135", "5140", "5150", "5160", "5170", "5180", "5190", "5200", "5210", "5400", "5500", "5650", "5700", "5710", "5800", "5900", "5910", "5920", "5930", "5950", "6300", "7600", "7700", "7710", "7800", "7900", "8000", "8010", "8020", "8030", "8100", "8110", "8220", "9100", "9500", "9510", "9520", "9530", "9540", "9600", "PCNR", "PCVV", "PP06", "PPRN", "PPAD", "PPAB", "PPAE", "PPAG", "PPAI", "PPAR", "PPAU", "PPAV", "PPAX", "PPBG", "PPC2", "PPCE", "PPCO", "PPCR", "PPCT", "PPCU", "PPD3", "PPDC", "PPDI", "PPDV", "PPDT", "PPEF", "PPEL", "PPER", "PPEX", "PPFE", "PPFI", "PPFR", "PPFV", "PPGR", "PPH1", "PPIF", "PPII", "PPIM", "PPIT", "PPLR", "PPLS", "PPMB", "PPMC", "PPMD", "PPNC", "PPNL", "PPNM", "PPNT", "PPPH", "PPPI", "PPPM", "PPQC", "PPRE", "PPRF", "PPRR", "PPS0", "PPS1", "PPS2", "PPS3", "PPS4", "PPS5", "PPS6", "PPSC", "PPSD", "PPSE", "PPTE", "PPTF", "PPTI", "PPTR", "PPTT", "PPTV", "PPUA", "PPUC", "PPUE", "PPUI", "PPUP", "PPUR", "PPVC", "PPVE", "PPVT" ]
+          },
+          "payment_advice_code" : {
+            "type" : "string",
+            "description" : "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes.",
+            "readOnly" : true,
+            "enum" : [ "01", "02", "03", "21" ]
           }
         },
-        "description" : "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit"
+        "description" : "The processor response information for payment requests, such as direct credit card transactions."
+      },
+      "InlineResponse4222" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/error_422"
+        }, {
+          "$ref" : "#/components/schemas/authorizations.void-422"
+        } ]
       },
       "InlineResponse4223" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/Error422"
+          "$ref" : "#/components/schemas/error_422"
         }, {
-          "$ref" : "#/components/schemas/CapturesRefund422"
+          "$ref" : "#/components/schemas/captures.refund-422"
         } ]
       },
       "MAXCAPTURECOUNTEXCEEDED" : {
@@ -3344,7 +3227,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/ErrorDefault"
+              "$ref" : "#/components/schemas/error_default"
             }
           }
         }
@@ -3352,9 +3235,9 @@
     },
     "parameters" : {
       "authorization_id" : {
-        "name" : "authorizationId",
+        "name" : "authorization_id",
         "in" : "path",
-        "description" : "The PayPal-generated ID for the authorized payment to void",
+        "description" : "The PayPal-generated ID for the authorized payment to void.",
         "required" : true,
         "style" : "simple",
         "explode" : false,
@@ -3365,14 +3248,13 @@
       "paypal_request_id" : {
         "name" : "PayPal-Request-Id",
         "in" : "header",
-        "description" : "The server stores keys for 45 days",
+        "description" : "The server stores keys for 45 days.",
         "required" : false,
         "style" : "simple",
         "explode" : false,
         "schema" : {
           "type" : "string"
-        },
-        "x-ballerina-name" : "payPalRequestId"
+        }
       },
       "prefer" : {
         "name" : "Prefer",
@@ -3384,8 +3266,7 @@
         "schema" : {
           "type" : "string",
           "default" : "return=minimal"
-        },
-        "x-ballerina-name" : "prefer"
+        }
       },
       "paypal_auth_assertion" : {
         "name" : "PayPal-Auth-Assertion",
@@ -3396,13 +3277,12 @@
         "explode" : false,
         "schema" : {
           "type" : "string"
-        },
-        "x-ballerina-name" : "payPalAuthAssertion"
+        }
       },
       "capture_id" : {
-        "name" : "captureId",
+        "name" : "capture_id",
         "in" : "path",
-        "description" : "The PayPal-generated ID for the captured payment to refund",
+        "description" : "The PayPal-generated ID for the captured payment to refund.",
         "required" : true,
         "style" : "simple",
         "explode" : false,
@@ -3411,9 +3291,9 @@
         }
       },
       "refund_id" : {
-        "name" : "refundId",
+        "name" : "refund_id",
         "in" : "path",
-        "description" : "The PayPal-generated ID for the refund for which to show details",
+        "description" : "The PayPal-generated ID for the refund for which to show details.",
         "required" : true,
         "style" : "simple",
         "explode" : false,
