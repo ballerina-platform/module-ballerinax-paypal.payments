@@ -99,12 +99,17 @@ isolated function createTestOrder() returns string|error {
     }
     
     json responseBody = check orderResponse.getJsonPayload();
-    return error("Failed to create order: " + orderResponse.statusCode.toString() + " - " + responseBody.toString());
+    int statusCode = orderResponse.statusCode;
+    string statusCodeStr = statusCode.toString();
+    string responseBodyStr = responseBody.toString();
+    string errorMessage = "Failed to create order: " + statusCodeStr + " - " + responseBodyStr;
+    return error(errorMessage);
 }
 
 isolated function authorizeTestOrder(string orderId) returns string|error {
     if (!useSandbox) {
-        return "mock_auth_" + orderId;
+        string mockAuthId = "mock_auth_" + orderId;
+        return mockAuthId;
     }
     
     if (TEST_AUTH_ID.length() > 0) {
@@ -133,14 +138,19 @@ isolated function authorizeTestOrder(string orderId) returns string|error {
     
     string requestId = uuid:createType1AsString();
     
-    http:Response authResponse = check orderClient->post("/v2/checkout/orders/" + orderId + "/authorize", authorizePayload, {
+    string authPath = "/v2/checkout/orders/" + orderId + "/authorize";
+    http:Response authResponse = check orderClient->post(authPath, authorizePayload, {
         "Content-Type": "application/json",
         "PayPal-Request-Id": requestId
     });
     
     if (authResponse.statusCode != 201) {
         json responseBody = check authResponse.getJsonPayload();
-        return error("Failed to authorize order: " + authResponse.statusCode.toString() + " - " + responseBody.toString());
+        int statusCode = authResponse.statusCode;
+        string statusCodeStr = statusCode.toString();
+        string responseBodyStr = responseBody.toString();
+        string errorMessage = "Failed to authorize order: " + statusCodeStr + " - " + responseBodyStr;
+        return error(errorMessage);
     }
     
     json authData = check authResponse.getJsonPayload();
@@ -260,7 +270,9 @@ function testReauthorizeAuthorization() returns error? {
                             json firstDetail = details[0];
                             json|error issue = firstDetail.issue;
                             if (issue is string && (issue == "REAUTHORIZATION_TOO_SOON" || issue == "AUTHORIZATION_ALREADY_CAPTURED")) {
-                                test:assertTrue(true, "Reauthorization correctly rejected: " + issue.toString());
+                                string issueStr = issue.toString();
+                                string testMessage = "Reauthorization correctly rejected: " + issueStr;
+                                test:assertTrue(true, testMessage);
                                 return;
                             }
                         }
