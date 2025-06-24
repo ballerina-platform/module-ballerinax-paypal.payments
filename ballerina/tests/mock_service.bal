@@ -18,7 +18,9 @@ import ballerina/http;
 import ballerina/time;
 import ballerina/uuid;
 
-listener http:Listener httpListener = new(9090);
+const int PORT = 9090;
+
+listener http:Listener httpListener = new(PORT);
 
 service / on httpListener {
     
@@ -31,25 +33,23 @@ service / on httpListener {
         };
     }
     
-    resource function get v2/payments/authorizations/[string id]() returns json {
-        return {
-            id: id,
-            status: "CREATED",
-            amount: { 
-                value: "1.00", 
-                currency_code: "USD" 
-            },
-            create_time: time:utcToString(time:utcNow()),
-            update_time: time:utcToString(time:utcNow()),
-            links: [
-                {
-                    href: "https://api-m.sandbox.paypal.com/v2/payments/authorizations/" + id,
-                    rel: "self",
-                    method: "GET"
-                }
-            ]
-        };
-    }
+    resource function get v2/payments/authorizations/[string id]() returns json => {
+        id: id,
+        status: "CREATED",
+        amount: { 
+            value: "1.00", 
+            currency_code: "USD" 
+        },
+        create_time: time:utcToString(time:utcNow()),
+        update_time: time:utcToString(time:utcNow()),
+        links: [
+            {
+                href: "https://api-m.sandbox.paypal.com/v2/payments/authorizations/" + id,
+                rel: "self",
+                method: "GET"
+            }
+        ]
+    };
     
     resource function post v2/payments/authorizations/[string id]/capture(@http:Payload json requestBody) returns json {
         string captureId = id + "_capture_123";
@@ -93,34 +93,30 @@ service / on httpListener {
         };
     }
     
-    resource function post v2/payments/authorizations/[string id]/void() returns json {
-        return {
-            id: id,
-            status: "VOIDED",
-            create_time: time:utcToString(time:utcNow()),
-            update_time: time:utcToString(time:utcNow())
-        };
-    }
+    resource function post v2/payments/authorizations/[string id]/void() returns json => {
+        id: id,
+        status: "VOIDED",
+        create_time: time:utcToString(time:utcNow()),
+        update_time: time:utcToString(time:utcNow())
+    };
     
-    resource function get v2/payments/captures/[string id]() returns json {
-        return {
-            id: id,
-            status: "COMPLETED",
-            amount: { 
-                value: "1.00", 
-                currency_code: "USD" 
-            },
-            create_time: time:utcToString(time:utcNow()),
-            update_time: time:utcToString(time:utcNow()),
-            links: [
-                {
-                    href: "https://api-m.sandbox.paypal.com/v2/payments/captures/" + id,
-                    rel: "self",
-                    method: "GET"
-                }
-            ]
-        };
-    }
+    resource function get v2/payments/captures/[string id]() returns json => {
+        id: id,
+        status: "COMPLETED",
+        amount: { 
+            value: "1.00", 
+            currency_code: "USD" 
+        },
+        create_time: time:utcToString(time:utcNow()),
+        update_time: time:utcToString(time:utcNow()),
+        links: [
+            {
+                href: "https://api-m.sandbox.paypal.com/v2/payments/captures/" + id,
+                rel: "self",
+                method: "GET"
+            }
+        ]
+    };
     
     resource function post v2/payments/captures/[string id]/refund(@http:Payload json requestBody) returns json {
         string refundId = id + "_refund_123";
@@ -143,62 +139,37 @@ service / on httpListener {
         };
     }
     
-    resource function get v2/payments/refunds/[string id]() returns json {
-        return {
-            id: id,
-            status: "COMPLETED",
-            amount: { 
-                value: "0.50", 
-                currency_code: "USD" 
-            },
-            create_time: time:utcToString(time:utcNow()),
-            update_time: time:utcToString(time:utcNow()),
-            links: [
-                {
-                    href: "https://api-m.sandbox.paypal.com/v2/payments/refunds/" + id,
-                    rel: "self",
-                    method: "GET"
-                }
-            ]
-        };
-    }
+    resource function get v2/payments/refunds/[string id]() returns json => {
+        id: id,
+        status: "COMPLETED",
+        amount: { 
+            value: "0.50", 
+            currency_code: "USD" 
+        },
+        create_time: time:utcToString(time:utcNow()),
+        update_time: time:utcToString(time:utcNow()),
+        links: [
+            {
+                href: "https://api-m.sandbox.paypal.com/v2/payments/refunds/" + id,
+                rel: "self",
+                method: "GET"
+            }
+        ]
+    };
     
     resource function post v2/checkout/orders/[string id]/authorize(@http:Payload json requestBody) returns json|http:Response {
         json|error paymentSource = requestBody.payment_source;
         
-        if (paymentSource is json) {
+        if paymentSource is json {
             json|error card = paymentSource.card;
             
-            if (card is json) {
+            if card is json {
                 json|error cardNumber = card.number;
-                string cardNumberStr = "";
-                if (cardNumber is json) {
-                    cardNumberStr = cardNumber.toString();
-                    if (cardNumberStr != "4111111111111111") {
-                        http:Response response = new;
-                        response.statusCode = 422;
-                        json errorJson = {
-                            "name": "UNPROCESSABLE_ENTITY",
-                            "details": [
-                                {
-                                    "field": "/payment_source/card/number",
-                                    "location": "body",
-                                    "issue": "VALIDATION_ERROR",
-                                    "description": "Invalid card number"
-                            }
-                        ],
-                            "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
-                            "debug_id": "mock_debug_id",
-                            "links": [
-                                {
-                                    "href": "https://developer.paypal.com/api/rest/reference/orders/v2/errors/#VALIDATION_ERROR",
-                                    "rel": "information_link",
-                                    "method": "GET"
-                                }
-                            ]
-                        };
-                        response.setJsonPayload(errorJson);
-                        return response;
+                
+                if cardNumber is json {
+                    string cardNumberStr = cardNumber.toString();
+                    if cardNumberStr != "4111111111111111" {
+                        return createValidationErrorResponse();
                     }
                 }
             }
@@ -238,4 +209,33 @@ service / on httpListener {
             ]
         };
     }
+}
+
+isolated function createValidationErrorResponse() returns http:Response {
+    http:Response response = new;
+    response.statusCode = 422;
+    
+    json errorJson = {
+        "name": "UNPROCESSABLE_ENTITY",
+        "details": [
+            {
+                "field": "/payment_source/card/number",
+                "location": "body",
+                "issue": "VALIDATION_ERROR",
+                "description": "Invalid card number"
+            }
+        ],
+        "message": "The requested action could not be performed, semantically incorrect, or failed business validation.",
+        "debug_id": "mock_debug_id",
+        "links": [
+            {
+                "href": "https://developer.paypal.com/api/rest/reference/orders/v2/errors/#VALIDATION_ERROR",
+                "rel": "information_link",
+                "method": "GET"
+            }
+        ]
+    };
+    
+    response.setJsonPayload(errorJson);
+    return response;
 }
