@@ -15,14 +15,12 @@
 // under the License.
 
 import ballerina/io;
-import ballerina/http;
-import ballerina/uuid;
 import ballerinax/paypal.payments as paypal;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string serviceUrl = ?;
-configurable string orderId = ?;
+configurable string authId = ?;
 
 final paypal:Client paypal = check new (
     {
@@ -36,8 +34,6 @@ final paypal:Client paypal = check new (
 );
 
 public function main() returns error? {
-    string authId = check authorizeOrder(orderId);
-    
     paypal:CaptureRequest capturePayload = {
         amount: {
             value: "100.00",
@@ -73,73 +69,4 @@ public function main() returns error? {
     paypal:Refund secondRefundResponse = check paypal->/captures/[captureId]/refund.post(secondRefund);
     string secondRefundId = secondRefundResponse.id ?: "";
     io:println("Month 2 refund: ", secondRefundId);
-}
-
-isolated function authorizeOrder(string orderId) returns string|error {
-    http:Client orderClient = check createHttpClient();
-    
-    record {|
-        record {|
-            record {|
-                string number;
-                string expiry;
-                string security_code;
-                string name;
-                record {|
-                    string address_line_1;
-                    string admin_area_2;
-                    string admin_area_1;
-                    string postal_code;
-                    string country_code;
-                |} billing_address;
-            |} card;
-        |} payment_source;
-    |} authorizePayload = {
-        payment_source: {
-            card: {
-                number: "4111111111111111",
-                expiry: "2029-08",
-                security_code: "965",
-                name: "John Smith",
-                billing_address: {
-                    address_line_1: "123 Main Street",
-                    admin_area_2: "San Jose",
-                    admin_area_1: "CA",
-                    postal_code: "95131",
-                    country_code: "US"
-                }
-            }
-        }
-    };
-    
-    string requestId = uuid:createType1AsString();
-    http:Response authResponse = check orderClient->post("/v2/checkout/orders/" + orderId + "/authorize", 
-        authorizePayload, {
-        "Content-Type": "application/json",
-        "PayPal-Request-Id": requestId
-    });
-    
-    json authData = check authResponse.getJsonPayload();
-    json[] purchaseUnitsArray = <json[]>check authData.purchase_units;
-    json firstUnit = purchaseUnitsArray[0];
-    json payments = check firstUnit.payments;
-    json[] authArray = <json[]>check payments.authorizations;
-    json firstAuth = authArray[0];
-    string authId = check firstAuth.id.ensureType(string);
-    return authId;
-}
-
-isolated function createHttpClient() returns http:Client|error {
-    http:OAuth2ClientCredentialsGrantConfig oauthConfig = {
-        clientId: clientId,
-        clientSecret: clientSecret,
-        tokenUrl: "https://api-m.sandbox.paypal.com/v1/oauth2/token"
-    };
-    
-    http:ClientConfiguration httpClientConfig = {
-        auth: oauthConfig,
-        timeout: 60
-    };
-    
-    return new ("https://api-m.sandbox.paypal.com", httpClientConfig);
 }

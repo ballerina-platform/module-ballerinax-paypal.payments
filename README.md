@@ -59,11 +59,9 @@ import ballerinax/paypal.payments as paypal;
 1. Create a `Config.toml` file and configure the obtained credentials in the above steps as follows:
 
 ```toml
-clientId = "<test-client-id>"
-clientSecret = "<test-client-secret>"
+sandboxClientId = "<test-client-id>"
+sandboxClientSecret = "<test-client-secret>"
 
-serviceUrl = "<paypal-service-url>"
-tokenUrl = "<paypal-token-url>"
 ```
 
 2. Create a `paypal:ConnectionConfig` with the obtained credentials and initialize the connector with it.

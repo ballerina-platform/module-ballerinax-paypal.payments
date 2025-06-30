@@ -15,6 +15,7 @@ Create a `Config.toml` file in the example's root directory and add your PayPal 
 ```toml
 clientId = "<your-paypal-client-id>"
 clientSecret = "<your-paypal-client-secret>"
+authId = "<YOUR_AUTH_ID>"
 ```
 
 ## Run the example

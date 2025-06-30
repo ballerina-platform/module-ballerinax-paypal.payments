@@ -1,4 +1,4 @@
-# examples
+# Examples
 
 The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples), covering use cases like product purchases with partial refunds, and subscription billing with pro-rated cancellations.
 
@@ -15,6 +15,7 @@ The `ballerinax/paypal.payments` connector provides practical examples illustrat
     ```toml
     clientId = "<YOUR_PAYPAL_CLIENT_ID>"
     clientSecret = "<YOUR_PAYPAL_CLIENT_SECRET>"
+    authId= "<YOUR_ORDER_AUTH_ID>"
     ```
 
 ## Running an Example
