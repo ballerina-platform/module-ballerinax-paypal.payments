@@ -41,7 +41,7 @@ target
 
 # Ignore ballerina files
 target/
-generated/examples/**/Dependencies.toml
+generated/
 .ballerina
 **/Config.toml
 

@@ -1,10 +1,10 @@
-# Examples
+# examples
 
 The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples), covering use cases like product purchases with partial refunds, and subscription billing with pro-rated cancellations.
 
-1. [Order Creation](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/order-creation) - Create an order, authorize and capture payment, and perform staged refunds.
+1. [**Order Creation**](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/order-creation) - Create an order, authorize and capture payment, and perform staged refunds.
 
-2. [Subcription Management](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/subscription-management) - Simulate recurring subscription charges and handle pro-rated refund scenarios.
+2. [**Subscription Management**](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/subscription-management) - Simulate recurring subscription charges and handle pro-rated refund scenarios.
 
 ## Prerequisites
 

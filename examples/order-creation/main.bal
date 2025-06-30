@@ -21,6 +21,8 @@ import ballerinax/paypal.payments as paypal;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
+configurable string serviceUrl = ?;
+configurable string orderId = ?;
 
 final paypal:Client paypal = check new (
     {
@@ -30,11 +32,10 @@ final paypal:Client paypal = check new (
             tokenUrl: "https://api-m.sandbox.paypal.com/v1/oauth2/token"
         }
     }, 
-    "https://api-m.sandbox.paypal.com/v2/payments"
+    serviceUrl
 );
 
 public function main() returns error? {
-    string orderId = check createOrder();
     string authId = check authorizeOrder(orderId);
     
     paypal:CaptureRequest capturePayload = {
@@ -72,40 +73,6 @@ public function main() returns error? {
     paypal:Refund secondRefundResponse = check paypal->/captures/[captureId]/refund.post(secondRefund);
     string secondRefundId = secondRefundResponse.id ?: "";
     io:println("Month 2 refund: ", secondRefundId);
-}
-
-isolated function createOrder() returns string|error {
-    http:Client orderClient = check createHttpClient();
-    
-    record {|
-        string intent;
-        record {|
-            record {|
-                string currency_code;
-                string value;
-            |} amount;
-            string description;
-        |}[] purchase_units;
-    |} orderPayload = {
-        intent: "AUTHORIZE",
-        purchase_units: [
-            {
-                amount: {
-                    currency_code: "USD",
-                    value: "100.00"
-                },
-                description: "Premium Wireless Headphones"
-            }
-        ]
-    };
-    
-    http:Response orderResponse = check orderClient->post("/v2/checkout/orders", orderPayload, {
-        "Content-Type": "application/json"
-    });
-    
-    json orderData = check orderResponse.getJsonPayload();
-    string orderId = check orderData.id.ensureType(string);
-    return orderId;
 }
 
 isolated function authorizeOrder(string orderId) returns string|error {

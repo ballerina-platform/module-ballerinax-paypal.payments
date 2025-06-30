@@ -21,6 +21,8 @@ import ballerinax/paypal.payments as paypal;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
+configurable string serviceUrl = ?;
+configurable string[] orderIds = ?;
 
 final paypal:Client paypal = check new (
     {
@@ -30,12 +32,11 @@ final paypal:Client paypal = check new (
             tokenUrl: "https://api-m.sandbox.paypal.com/v1/oauth2/token"
         }
     }, 
-    "https://api-m.sandbox.paypal.com/v2/payments"
+    serviceUrl
 );
 
 public function main() returns error? {
-    string orderId = check createSubscriptionOrder();
-    string authId = check authorizeSubscriptionPayment(orderId);
+    string authId = check authorizeOrder(orderIds[0]);
     
     paypal:CaptureRequest firstMonthCapture = {
         amount: {
@@ -50,8 +51,7 @@ public function main() returns error? {
     io:println("Month 1 captured: ", firstCaptureId);
     
     foreach int month in 2...4 {
-        string monthlyOrderId = check createMonthlyRecurringOrder(month);
-        string monthlyAuthId = check authorizeSubscriptionPayment(monthlyOrderId);
+        string monthlyAuthId = check authorizeOrder(orderIds[month - 1]);
         
         paypal:CaptureRequest monthlyCapture = {
             amount: {
@@ -66,8 +66,7 @@ public function main() returns error? {
         io:println(string `Month ${month} captured: `, monthlyCaptureId);
     }
     
-    string basicOrderId = check createBasicPlanOrder();
-    string basicAuthId = check authorizeSubscriptionPayment(basicOrderId);
+    string basicAuthId = check authorizeOrder(orderIds[4]);
     
     paypal:CaptureRequest basicPlanCapture = {
         amount: {
@@ -94,54 +93,8 @@ public function main() returns error? {
     io:println("Refund processed: ", refundId);
 }
 
-isolated function createSubscriptionOrder() returns string|error {
-    return createOrderWithAmount("9.99", "Music Premium Monthly Subscription");
-}
-
-isolated function createMonthlyRecurringOrder(int month) returns string|error {
-    return createOrderWithAmount("9.99", string `Music Premium - Month ${month}`);
-}
-
-isolated function createBasicPlanOrder() returns string|error {
-    return createOrderWithAmount("6.99", "Music Basic Monthly Subscription");
-}
-
-isolated function createOrderWithAmount(string amount, string description) returns string|error {
-    http:Client orderClient = check createOrderHttpClient();
-    
-    record {|
-        string intent;
-        record {|
-            record {|
-                string currency_code;
-                string value;
-            |} amount;
-            string description;
-        |}[] purchase_units;
-    |} orderPayload = {
-        intent: "AUTHORIZE",
-        purchase_units: [
-            {
-                amount: {
-                    currency_code: "USD",
-                    value: amount
-                },
-                description: description
-            }
-        ]
-    };
-    
-    http:Response orderResponse = check orderClient->post("/v2/checkout/orders", orderPayload, {
-        "Content-Type": "application/json"
-    });
-    
-    json orderData = check orderResponse.getJsonPayload();
-    string orderId = check orderData.id.ensureType(string);
-    return orderId;
-}
-
-isolated function authorizeSubscriptionPayment(string orderId) returns string|error {
-    http:Client orderClient = check createOrderHttpClient();
+isolated function authorizeOrder(string orderId) returns string|error {
+    http:Client orderClient = check createHttpClient();
     
     record {|
         record {|
@@ -194,7 +147,7 @@ isolated function authorizeSubscriptionPayment(string orderId) returns string|er
     return authId;
 }
 
-isolated function createOrderHttpClient() returns http:Client|error {
+isolated function createHttpClient() returns http:Client|error {
     http:OAuth2ClientCredentialsGrantConfig oauthConfig = {
         clientId: clientId,
         clientSecret: clientSecret,
