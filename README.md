@@ -67,8 +67,8 @@ sandboxClientSecret = "<test-client-secret>"
 2. Create a `paypal:ConnectionConfig` with the obtained credentials and initialize the connector with it.
 
 ```ballerina
-configurable string clientId = ?;
-configurable string clientSecret = ?;
+configurable string sandboxClientId = ?;
+configurable string sandboxClientSecret= ?;
 
 configurable string serviceUrl = ?;
 configurable string tokenUrl = ?;

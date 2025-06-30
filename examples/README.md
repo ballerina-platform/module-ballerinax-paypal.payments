@@ -1,4 +1,4 @@
-# Examples
+## Running an example
 
 The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples), covering use cases like product purchases with partial refunds, and subscription billing with pro-rated cancellations.
 
