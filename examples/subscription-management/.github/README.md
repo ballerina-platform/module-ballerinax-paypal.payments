@@ -1,1 +1,1 @@
-subscription-management.md
+../subscription-management.md
