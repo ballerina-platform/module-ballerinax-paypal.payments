@@ -1,16 +1,23 @@
 # Examples
 
-The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios.
+The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples), covering use cases like product purchases with partial refunds, and subscription billing with pro-rated cancellations.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+1. [Order Creation](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/purchase-and-refund) - Create an order, authorize and capture payment, and perform staged refunds.
+
+2. [Subcription Management](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/subscription-billing) - Simulate recurring subscription charges and handle pro-rated refund scenarios.
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+1. Generate PayPal credentials to authenticate the connector as described in the [Setup guide](https://developer.paypal.com/docs/api/overview/).
 
-## Running an example
+2. For each example, create a `Config.toml` file with the related configuration. Here's an example of how your `Config.toml` file should look:
+
+    ```toml
+    clientId = "<YOUR_PAYPAL_CLIENT_ID>"
+    clientSecret = "<YOUR_PAYPAL_CLIENT_SECRET>"
+    ```
+
+## Running an Example
 
 Execute the following commands to build an example from the source:
 
@@ -25,6 +32,7 @@ Execute the following commands to build an example from the source:
     ```bash
     bal run
     ```
+
 
 ## Building the examples with the local module
 
@@ -43,3 +51,4 @@ Execute the following commands to build all the examples against the changes you
     ```bash
     ./build.sh run
     ```
+

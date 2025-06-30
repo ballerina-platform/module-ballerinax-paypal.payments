@@ -1,4 +1,4 @@
-# Ballerina Paypal Payments connector
+# Ballerina PayPal Payments Connector
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/actions/workflows/ci.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-paypal.payments.svg)](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/commits/master)
@@ -6,21 +6,119 @@
 
 ## Overview
 
-[//]: # (TODO: Add overview mentioning the purpose of the module, supported REST API versions, and other high-level details.)
+[PayPal](https://www.paypal.com/) is a global online payment platform enabling individuals and businesses to securely send and receive money, process transactions, and access merchant services across multiple currencies.
+
+The `ballerinax/paypal.payments` package provides a Ballerina connector for interacting with the [PayPal Payments API v2](https://developer.paypal.com/docs/api/payments/v2/), allowing you to authorize payments, capture authorized payments, refund captured payments, void authorizations, and reauthorize expired authorizations in your Ballerina applications.
 
 ## Setup guide
 
-[//]: # (TODO: Add detailed steps to obtain credentials and configure the module.)
+To use the PayPal Payments connector, you must have access to a [PayPal Developer account](https://developer.paypal.com/).
+
+### Step 1: Create a business account
+
+1. Open the [PayPal Developer Dashboard](https://developer.paypal.com/dashboard).
+
+2. Click on "Sandbox Accounts" under "Testing Tools".
+
+   <img src="https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-paypal.payments/main/docs/setup/resources/sandbox-accounts.png" alt="Sandbox Accounts" style="width: 70%;">
+
+3. Create a Business account
+
+   > Note: Some PayPal options and features may vary by region or country; check availability before creating an account.
+
+   <img src="https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-paypal.payments/main/docs/setup/resources/create-account.png" alt="Create Business Account" style="width: 70%;">
+
+### Step 2: Create a REST API app
+
+1. Navigate to the "Apps and Credentials" tab and create a new merchant app.
+
+   Provide a name for the application and select the Business account you created earlier.
+
+   <img src="https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-paypal.payments/main/docs/setup/resources/create-app.png" alt="Create App" style="width: 70%;">
+
+### Step 3: Obtain Client ID and Client Secret
+
+1. After creating your new app, you will see your **Client ID** and **Client Secret**. Make sure to copy and securely store these credentials.
+
+   <img src="https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-paypal.payments/main/docs/setup/resources/get-credentials.png" alt="Credentials" style="width: 70%;">
 
 ## Quickstart
 
-[//]: # (TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets.)
+To use the `paypal.payments` connector in your Ballerina application, update the `.bal` file as follows:
+
+### Step 1: Import the module
+
+Import the `paypal.payments` module.
+
+```ballerina
+import ballerinax/paypal.payments as paypal;
+```
+
+### Step 2: Instantiate a new connector
+
+1. Create a `Config.toml` file and configure the obtained credentials in the above steps as follows:
+
+```toml
+clientId = "<test-client-id>"
+clientSecret = "<test-client-secret>"
+
+serviceUrl = "<paypal-service-url>"
+tokenUrl = "<paypal-token-url>"
+```
+
+2. Create a `paypal:ConnectionConfig` with the obtained credentials and initialize the connector with it.
+
+```ballerina
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+
+configurable string serviceUrl = ?;
+configurable string tokenUrl = ?;
+```
+
+```ballerina
+final paypal:Client paypal = check new ({
+    auth: {
+        clientId,
+        clientSecret,
+        tokenUrl
+    }
+}, serviceUrl);
+```
+
+### Step 3: Invoke the connector operation
+
+Now, utilize the available connector operations.
+
+#### Capture an authorized payment
+
+```ballerina
+public function main() returns error? {
+    paypal:CaptureRequest captureRequest = {
+        amount: {
+            currency_code: "USD",
+            value: "100.00"
+        },
+        final_capture: true
+    };
+    
+    paypal:Capture2 response = check paypal->/authorizations/[authorizationId]/capture.post(captureRequest);
+}
+```
+
+### Step 4: Run the Ballerina application
+
+```bash
+bal run
+```
 
 ## Examples
 
-The `Paypal Payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-paypal.payments/tree/main/examples/), covering the following use cases:
+The `PayPal Payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/), covering the following use cases:
 
-[//]: # (TODO: Add examples)
+1. [**Order creation**](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/order-creation): Process a complete product purchase from order creation through payment authorization, capture, and partial refunds.
+
+2. [**Subscription management**](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples/subscription-management): Simulate a recurring billing flow with subscription-style orders, monthly payments, plan switching, and pro-rated refunds.
 
 ## Build from the source
 
