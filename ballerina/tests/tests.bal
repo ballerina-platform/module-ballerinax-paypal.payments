@@ -22,7 +22,7 @@ import ballerina/time;
 
 configurable string sandboxClientId = "ClientId";
 configurable string sandboxClientSecret = "ClientSecret";
-configurable boolean isLiveServer = true;
+configurable boolean isLiveServer = false;
 
 const string SANDBOX_URL = "https://api-m.sandbox.paypal.com";
 const string MOCK_URL = "http://localhost:9090";
