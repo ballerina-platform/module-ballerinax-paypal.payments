@@ -20,13 +20,9 @@ import ballerina/http;
 import ballerina/uuid;
 import ballerina/time;
 
-configurable string sandboxClientId = os:getEnv("PAYPAL_CLIENT_ID");
-configurable string sandboxClientSecret = os:getEnv("PAYPAL_CLIENT_SECRET");
-configurable boolean isLiveServer = false;
-configurable string testOrderId = os:getEnv("PAYPAL_TEST_ORDER_ID");
-configurable string testAuthId = os:getEnv("PAYPAL_TEST_AUTH_ID");
-configurable string testCaptureId = os:getEnv("PAYPAL_TEST_CAPTURE_ID");
-configurable string testRefundId = os:getEnv("PAYPAL_TEST_REFUND_ID");
+configurable string sandboxClientId = "ClientId";
+configurable string sandboxClientSecret = "ClientSecret";
+configurable boolean isLiveServer = true;
 
 const string SANDBOX_URL = "https://api-m.sandbox.paypal.com";
 const string MOCK_URL = "http://localhost:9090";
@@ -41,10 +37,13 @@ isolated function getPaypalServiceUrl() returns string => isLiveServer ? SANDBOX
 Client paypal = test:mock(Client);
 
 isolated function createOrderHttpClient() returns http:Client|error {
+    string actualClientId = sandboxClientId.length() > 0 ? sandboxClientId : os:getEnv("PAYPAL_CLIENT_ID");
+    string actualClientSecret = sandboxClientSecret.length() > 0 ? sandboxClientSecret : os:getEnv("PAYPAL_CLIENT_SECRET");
+    
     string serviceUrl = getPaypalServiceUrl();
     http:OAuth2ClientCredentialsGrantConfig oauthConfig = {
-        clientId: isLiveServer ? sandboxClientId : "test_client_id",
-        clientSecret: isLiveServer ? sandboxClientSecret : "test_client_secret",
+        clientId: isLiveServer ? actualClientId : "test_client_id",
+        clientSecret: isLiveServer ? actualClientSecret : "test_client_secret",
         tokenUrl: serviceUrl + "/v1/oauth2/token"
     };
 
@@ -61,7 +60,7 @@ isolated function createTestOrder() returns string|error {
         return "mock_order_123";
     }
 
-    string existingOrderId = testOrderId;
+    string existingOrderId = os:getEnv("PAYPAL_TEST_ORDER_ID");
     if existingOrderId.length() > 0 {
         return existingOrderId;
     }
@@ -109,7 +108,7 @@ isolated function authorizeTestOrder(string orderId) returns string|error {
         return "mock_auth_" + orderId;
     }
 
-    string existingAuthId = testAuthId;
+    string existingAuthId = os:getEnv("PAYPAL_TEST_AUTH_ID");
     if existingAuthId.length() > 0 {
         return existingAuthId;
     }
@@ -216,12 +215,15 @@ isolated function validateAuthorizationResponse(Authorization2 response) {
 
 @test:BeforeSuite
 function beforeAllTests() returns error? {
+    string actualClientId = sandboxClientId.length() > 0 ? sandboxClientId : os:getEnv("PAYPAL_CLIENT_ID");
+    string actualClientSecret = sandboxClientSecret.length() > 0 ? sandboxClientSecret : os:getEnv("PAYPAL_CLIENT_SECRET");
+    
     string serviceUrl = getPaypalServiceUrl();
     string paymentsServiceUrl = serviceUrl + "/v2/payments";
     
     http:OAuth2ClientCredentialsGrantConfig oauthConfig = {
-        clientId: isLiveServer ? sandboxClientId : "test_client_id",
-        clientSecret: isLiveServer ? sandboxClientSecret : "test_client_secret",
+        clientId: isLiveServer ? actualClientId : "test_client_id",
+        clientSecret: isLiveServer ? actualClientSecret : "test_client_secret",
         tokenUrl: serviceUrl + "/v1/oauth2/token"
     };
 
@@ -240,23 +242,23 @@ function beforeAllTests() returns error? {
         return;
     }
 
-    if sandboxClientId.length() == 0 || sandboxClientSecret.length() == 0 {
+    if actualClientId.length() == 0 || actualClientSecret.length() == 0 {
         return error("Missing sandbox credentials");
     }
 
-    string existingAuthId = testAuthId;
+    string existingAuthId = os:getEnv("PAYPAL_TEST_AUTH_ID");
     if existingAuthId.length() > 0 {
         currentTestAuthId = existingAuthId;
-        currentTestCaptureId = testCaptureId;
-        currentTestRefundId = testRefundId;
+        currentTestCaptureId = os:getEnv("PAYPAL_TEST_CAPTURE_ID");
+        currentTestRefundId = os:getEnv("PAYPAL_TEST_REFUND_ID");
         return;
     }
 
     string orderId = check createTestOrder();
     currentTestOrderId = orderId;
     currentTestAuthId = check authorizeTestOrder(orderId);
-    currentTestCaptureId = testCaptureId;
-    currentTestRefundId = testRefundId;
+    currentTestCaptureId = os:getEnv("PAYPAL_TEST_CAPTURE_ID");
+    currentTestRefundId = os:getEnv("PAYPAL_TEST_REFUND_ID");
 }
 
 @test:Config {
@@ -327,7 +329,7 @@ function testReauthorizeAuthorization() returns error? {
 function testVoidAuthorization() returns error? {
     string voidAuthId = currentTestAuthId;
 
-    if isLiveServer && testAuthId.length() == 0 {
+    if isLiveServer && os:getEnv("PAYPAL_TEST_AUTH_ID").length() == 0 {
         string newOrderId = check createTestOrder();
         voidAuthId = check authorizeTestOrder(newOrderId);
         time:Utc currentTime = time:utcNow();

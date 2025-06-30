@@ -1,4 +1,4 @@
-## Running an example
+# Examples
 
 The `ballerinax/paypal.payments` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-paypal.payments/tree/main/examples), covering use cases like product purchases with partial refunds, and subscription billing with pro-rated cancellations.
 
@@ -18,7 +18,7 @@ The `ballerinax/paypal.payments` connector provides practical examples illustrat
     authId= "<YOUR_ORDER_AUTH_ID>"
     ```
 
-## Running an Example
+## Running an example
 
 Execute the following commands to build an example from the source:
 

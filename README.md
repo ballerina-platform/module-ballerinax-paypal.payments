@@ -70,8 +70,6 @@ sandboxClientSecret = "<test-client-secret>"
 configurable string sandboxClientId = ?;
 configurable string sandboxClientSecret= ?;
 
-configurable string serviceUrl = ?;
-configurable string tokenUrl = ?;
 ```
 
 ```ballerina
