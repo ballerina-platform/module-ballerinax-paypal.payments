@@ -15,18 +15,13 @@
 // under the License.
 
 import ballerina/test;
-import ballerina/os;
 import ballerina/http;
 import ballerina/uuid;
 import ballerina/time;
 
-configurable string sandboxClientId = os:getEnv("PAYPAL_CLIENT_ID");
-configurable string sandboxClientSecret = os:getEnv("PAYPAL_CLIENT_SECRET");
-configurable boolean isLiveServer = ?;
-configurable string testOrderId = os:getEnv("PAYPAL_TEST_ORDER_ID");
-configurable string testAuthId = os:getEnv("PAYPAL_TEST_AUTH_ID");
-configurable string testCaptureId = os:getEnv("PAYPAL_TEST_CAPTURE_ID");
-configurable string testRefundId = os:getEnv("PAYPAL_TEST_REFUND_ID");
+configurable string sandboxClientId = "ClientId";
+configurable string sandboxClientSecret = "ClientSecret";
+configurable boolean isLiveServer = false;
 
 const string SANDBOX_URL = "https://api-m.sandbox.paypal.com";
 const string MOCK_URL = "http://localhost:9090";
@@ -35,7 +30,6 @@ string currentTestAuthId = "";
 string currentTestCaptureId = "";
 string currentTestRefundId = "";
 string currentTestOrderId = "";
-
 isolated function getPaypalServiceUrl() returns string => isLiveServer ? SANDBOX_URL : MOCK_URL;
 
 Client paypal = test:mock(Client);
@@ -59,11 +53,6 @@ isolated function createOrderHttpClient() returns http:Client|error {
 isolated function createTestOrder() returns string|error {
     if !isLiveServer {
         return "mock_order_123";
-    }
-
-    string existingOrderId = testOrderId;
-    if existingOrderId.length() > 0 {
-        return existingOrderId;
     }
 
     http:Client orderClient = check createOrderHttpClient();
@@ -107,11 +96,6 @@ isolated function createTestOrder() returns string|error {
 isolated function authorizeTestOrder(string orderId) returns string|error {
     if !isLiveServer {
         return "mock_auth_" + orderId;
-    }
-
-    string existingAuthId = testAuthId;
-    if existingAuthId.length() > 0 {
-        return existingAuthId;
     }
 
     http:Client orderClient = check createOrderHttpClient();
@@ -244,19 +228,9 @@ function beforeAllTests() returns error? {
         return error("Missing sandbox credentials");
     }
 
-    string existingAuthId = testAuthId;
-    if existingAuthId.length() > 0 {
-        currentTestAuthId = existingAuthId;
-        currentTestCaptureId = testCaptureId;
-        currentTestRefundId = testRefundId;
-        return;
-    }
-
     string orderId = check createTestOrder();
     currentTestOrderId = orderId;
     currentTestAuthId = check authorizeTestOrder(orderId);
-    currentTestCaptureId = testCaptureId;
-    currentTestRefundId = testRefundId;
 }
 
 @test:Config {
@@ -327,7 +301,7 @@ function testReauthorizeAuthorization() returns error? {
 function testVoidAuthorization() returns error? {
     string voidAuthId = currentTestAuthId;
 
-    if isLiveServer && testAuthId.length() == 0 {
+    if isLiveServer {
         string newOrderId = check createTestOrder();
         voidAuthId = check authorizeTestOrder(newOrderId);
         time:Utc currentTime = time:utcNow();
