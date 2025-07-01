@@ -75,9 +75,8 @@ configurable string sandboxClientSecret= ?;
 ```ballerina
 final paypal:Client paypal = check new ({
     auth: {
-        clientId,
-        clientSecret,
-        tokenUrl
+        sandboxClientId,
+        sandboxClientSecret,
     }
 }, serviceUrl);
 ```

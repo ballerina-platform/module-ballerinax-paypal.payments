@@ -16,6 +16,8 @@ The `ballerinax/paypal.payments` connector provides practical examples illustrat
     clientId = "<YOUR_PAYPAL_CLIENT_ID>"
     clientSecret = "<YOUR_PAYPAL_CLIENT_SECRET>"
     authId= "<YOUR_ORDER_AUTH_ID>"
+    serviceUrl = "<YOUR_SERVICE_URL>"
+
     ```
 
 ## Running an example
