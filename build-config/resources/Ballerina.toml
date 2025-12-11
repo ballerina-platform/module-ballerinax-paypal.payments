@@ -5,7 +5,7 @@ name = "paypal.payments"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["Paypal", "Payments"] 
+keywords = ["Payments", "Vendor/Paypal", "Area/Finance", "Type/Connector"]
 icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-paypal.payments"
 
