@@ -1,8 +1,15 @@
 ## Overview
 
-[PayPal](https://www.paypal.com/) is a global online payment platform enabling individuals and businesses to securely send and receive money, process transactions, and access merchant services across multiple currencies.
+[PayPal](https://www.paypal.com/) is a global online payment platform that enables individuals and businesses to securely send and receive money, process transactions, and access merchant services.
 
-The `ballerinax/paypal.payments` package provides a Ballerina connector for interacting with the [PayPal Payments API v2](https://developer.paypal.com/docs/api/payments/v2/), allowing you to authorize payments, capture authorized payments, refund captured payments, void authorizations, and reauthorize expired authorizations in your Ballerina applications.
+The PayPal Payments connector offers APIs to connect and interact with the [PayPal Payments API v2](https://developer.paypal.com/docs/api/payments/v2/), enabling you to authorize, capture, refund, and manage payments within applications.
+
+### Key Features
+
+- Authorize and capture payments programmatically
+- Support for PayPal Payments API v2
+- Handle refunds and void authorizations
+- Manage payment lifecycles efficiently
 
 ## Setup guide
 
